@@ -1,0 +1,1864 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>VLearn — day05-ai-product-thinking-requirements</title>
+  <meta name="description" content="VLearn - Nền tảng học tập thích ứng với AI Tutor hỗ trợ học viên khóa AI Thực Chiến">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --primary: #1a56db;
+      --primary-light: #e8f0fd;
+      --primary-hover: #1741b0;
+      --green: #0e9f6e;
+      --green-light: #def7ec;
+      --orange: #f59e0b;
+      --red: #ef4444;
+      --sidebar-bg: #ffffff;
+      --header-bg: #ffffff;
+      --viewer-bg: #e5e7eb;
+      --tutor-bg: #ffffff;
+      --border: #e5e7eb;
+      --text-main: #111827;
+      --text-muted: #6b7280;
+      --text-sm: #9ca3af;
+      --shadow-sm: 0 1px 3px rgba(0,0,0,.08);
+      --shadow-md: 0 4px 12px rgba(0,0,0,.1);
+      --radius: 8px;
+      --radius-lg: 12px;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #f3f4f6;
+      color: var(--text-main);
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    /* TOP HEADER */
+    .top-header {
+      background: var(--header-bg);
+      border-bottom: 1px solid var(--border);
+      height: 52px;
+      display: flex;
+      align-items: center;
+      padding: 0 16px;
+      gap: 12px;
+      flex-shrink: 0;
+      box-shadow: var(--shadow-sm);
+      z-index: 100;
+    }
+
+    .header-back-btn {
+      width: 32px; height: 32px;
+      border: none; background: none;
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      color: var(--text-muted);
+      border-radius: 6px;
+      transition: background .15s, color .15s;
+    }
+    .header-back-btn:hover { background: #f3f4f6; color: var(--text-main); }
+
+    .vlearn-logo {
+      display: flex; align-items: center; gap: 6px;
+      text-decoration: none;
+    }
+    .logo-icon {
+      width: 28px; height: 28px;
+      background: linear-gradient(135deg, #1a56db, #3b82f6);
+      border-radius: 6px;
+      display: flex; align-items: center; justify-content: center;
+      color: white; font-weight: 700; font-size: 13px;
+    }
+    .logo-text { font-weight: 700; font-size: 16px; color: var(--primary); letter-spacing: -.3px; }
+
+    .header-divider { width: 1px; height: 24px; background: var(--border); }
+
+    .header-doc-icon {
+      color: var(--text-muted);
+      display: flex; align-items: center;
+    }
+
+    .header-title {
+      font-size: 13px; font-weight: 500;
+      color: var(--text-main);
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+      flex: 1;
+    }
+    .header-subtitle {
+      font-size: 11px; color: var(--text-muted); font-weight: 400;
+    }
+
+    .header-title-group { flex: 1; overflow: hidden; }
+
+    .header-actions { display: flex; align-items: center; gap: 8px; margin-left: auto; }
+
+    .lang-btn {
+      background: #f3f4f6; border: 1px solid var(--border);
+      border-radius: 6px; padding: 4px 10px;
+      font-size: 12px; font-weight: 600; color: var(--text-muted);
+      cursor: pointer; transition: all .15s;
+    }
+    .lang-btn:hover { background: var(--primary); color: white; border-color: var(--primary); }
+
+    .icon-btn {
+      width: 32px; height: 32px;
+      border: none; background: none; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      color: var(--text-muted); border-radius: 6px;
+      transition: background .15s, color .15s;
+    }
+    .icon-btn:hover { background: #f3f4f6; color: var(--text-main); }
+
+    /* MAIN LAYOUT */
+    .main-layout {
+      display: flex;
+      flex: 1;
+      overflow: hidden;
+    }
+
+    /* LEFT SIDEBAR */
+    .left-sidebar {
+      width: 220px;
+      background: var(--sidebar-bg);
+      border-right: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+
+    .sidebar-header {
+      padding: 14px 16px 10px;
+      border-bottom: 1px solid var(--border);
+    }
+    .sidebar-header h2 {
+      font-size: 13px; font-weight: 600; color: var(--text-main);
+      margin-bottom: 2px;
+    }
+    .sidebar-header p {
+      font-size: 11px; color: var(--text-muted); line-height: 1.4;
+    }
+
+    .sidebar-nav {
+      flex: 1;
+      overflow-y: auto;
+      padding: 8px 0;
+    }
+    .sidebar-nav::-webkit-scrollbar { width: 4px; }
+    .sidebar-nav::-webkit-scrollbar-thumb { background: #d1d5db; border-radius: 4px; }
+
+    .day-item {
+      border-bottom: 1px solid #f3f4f6;
+    }
+
+    .day-header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 10px 16px;
+      cursor: pointer;
+      transition: background .15s;
+      user-select: none;
+    }
+    .day-header:hover { background: #f9fafb; }
+    .day-header.active { background: var(--primary-light); }
+
+    .day-header-left { display: flex; align-items: center; gap: 8px; }
+
+    .day-circle {
+      width: 22px; height: 22px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 10px; font-weight: 700;
+      flex-shrink: 0;
+    }
+    .day-circle.done { background: var(--green); color: white; }
+    .day-circle.studying { background: var(--primary); color: white; }
+    .day-circle.locked { background: #e5e7eb; color: var(--text-muted); }
+
+    .day-info { }
+    .day-name { font-size: 13px; font-weight: 600; color: var(--text-main); }
+    .day-meta { font-size: 10px; color: var(--text-muted); margin-top: 1px; }
+
+    .day-status {
+      font-size: 9px; font-weight: 700; letter-spacing: .5px;
+      padding: 2px 6px; border-radius: 4px;
+      text-transform: uppercase;
+    }
+    .day-status.published { background: var(--green-light); color: var(--green); }
+    .day-status.studying { background: var(--primary-light); color: var(--primary); }
+
+    .day-chevron {
+      color: var(--text-muted); font-size: 10px;
+      transition: transform .2s;
+    }
+    .day-chevron.open { transform: rotate(180deg); }
+
+    .day-files {
+      background: #f9fafb;
+      display: none;
+      border-top: 1px solid #f3f4f6;
+    }
+    .day-files.open { display: block; }
+
+    .file-item {
+      display: flex; align-items: center; gap: 8px;
+      padding: 8px 16px 8px 42px;
+      cursor: pointer;
+      transition: background .15s;
+      border-left: 3px solid transparent;
+    }
+    .file-item:hover { background: #f0f4ff; }
+    .file-item.active {
+      background: var(--primary-light);
+      border-left-color: var(--primary);
+    }
+    .file-icon { color: var(--text-muted); font-size: 12px; flex-shrink: 0; }
+    .file-icon.active { color: var(--primary); }
+    .file-name { font-size: 11px; color: var(--text-main); line-height: 1.3; flex: 1; }
+    .file-pages { font-size: 10px; color: var(--text-muted); }
+
+    /* CENTER PDF VIEWER */
+    .viewer-area {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      background: #e8eaed;
+    }
+
+    .viewer-toolbar {
+      background: var(--header-bg);
+      border-bottom: 1px solid var(--border);
+      padding: 6px 16px;
+      display: flex; align-items: center; gap: 6px;
+      flex-shrink: 0;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .toolbar-group {
+      display: flex; align-items: center; gap: 2px;
+    }
+    .toolbar-sep { width: 1px; height: 20px; background: var(--border); margin: 0 6px; }
+
+    .tb-btn {
+      display: flex; align-items: center; gap: 5px;
+      padding: 5px 10px; border: 1px solid transparent;
+      border-radius: 6px; cursor: pointer; font-size: 12px;
+      font-family: inherit; background: none;
+      color: var(--text-main); font-weight: 500;
+      transition: all .15s;
+    }
+    .tb-btn:hover { background: #f3f4f6; }
+    .tb-btn.active {
+      background: var(--primary-light);
+      border-color: #bfdbfe;
+      color: var(--primary);
+    }
+
+    .page-nav {
+      display: flex; align-items: center; gap: 4px;
+      font-size: 12px; color: var(--text-muted);
+      margin: 0 4px;
+    }
+    .page-input {
+      width: 36px; text-align: center;
+      border: 1px solid var(--border); border-radius: 4px;
+      padding: 3px 4px; font-size: 12px; font-family: inherit;
+      color: var(--text-main); outline: none;
+    }
+    .page-input:focus { border-color: var(--primary); }
+
+    .zoom-group {
+      display: flex; align-items: center; gap: 2px;
+    }
+    .zoom-val { font-size: 12px; color: var(--text-main); padding: 0 8px; }
+
+    .spacer { flex: 1; }
+
+    /* PDF pages */
+    .viewer-scroll {
+      flex: 1;
+      overflow-y: auto;
+      padding: 24px 40px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+    }
+    .viewer-scroll::-webkit-scrollbar { width: 6px; }
+    .viewer-scroll::-webkit-scrollbar-thumb { background: #9ca3af; border-radius: 4px; }
+
+    .slide-wrap {
+      width: 100%;
+      max-width: 600px;
+      position: relative;
+    }
+    .slide-meta {
+      display: flex; justify-content: space-between;
+      font-size: 10px; color: var(--text-muted);
+      margin-bottom: 6px; padding: 0 2px;
+    }
+
+    .slide-card {
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: var(--shadow-md);
+      cursor: pointer;
+      transition: transform .15s, box-shadow .15s;
+      position: relative;
+    }
+    .slide-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(0,0,0,.15);
+    }
+
+    /* Slide 1 */
+    .slide-1 {
+      background: linear-gradient(135deg, #1e3a6e 0%, #1a56db 60%, #2563eb 100%);
+      padding: 40px 36px;
+      min-height: 340px;
+      display: flex; flex-direction: column;
+      justify-content: center;
+    }
+    .slide-1-logo {
+      display: flex; align-items: center; gap: 6px;
+      margin-bottom: 32px;
+    }
+    .slide-1-logo-icon {
+      width: 24px; height: 24px;
+      background: rgba(255,255,255,.2);
+      border-radius: 5px;
+      display: flex; align-items: center; justify-content: center;
+      color: white; font-weight: 700; font-size: 11px;
+    }
+    .slide-1-logo-text { color: white; font-weight: 700; font-size: 14px; letter-spacing: .5px; }
+    .slide-1 h1 {
+      color: white; font-size: 22px; font-weight: 700;
+      line-height: 1.3; margin-bottom: 12px;
+    }
+    .slide-1 p { color: rgba(255,255,255,.7); font-size: 12px; }
+    .slide-1-instructor { color: rgba(255,255,255,.85); font-size: 12px; margin-top: 28px; }
+    .slide-1-date { color: rgba(255,255,255,.55); font-size: 11px; margin-top: 4px; }
+
+    /* Slide 2 */
+    .slide-2 {
+      background: linear-gradient(135deg, #1e3a6e 0%, #1a56db 100%);
+      padding: 40px 36px;
+      min-height: 280px;
+      display: flex; flex-direction: column;
+      justify-content: center; align-items: flex-start;
+    }
+    .slide-2-tag {
+      display: inline-block;
+      background: #ef4444; color: white;
+      font-size: 9px; font-weight: 700; letter-spacing: .8px;
+      padding: 3px 8px; border-radius: 3px;
+      margin-bottom: 20px; text-transform: uppercase;
+    }
+    .slide-2 blockquote {
+      color: white; font-size: 18px; font-weight: 500;
+      line-height: 1.5; font-style: italic;
+      border: none;
+    }
+
+    /* Note overlay */
+    .note-overlay {
+      position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,.35);
+      display: flex; align-items: center; justify-content: center;
+      opacity: 0; transition: opacity .2s;
+      border-radius: var(--radius);
+    }
+    .slide-card:hover .note-overlay { opacity: 1; }
+    .note-hint {
+      background: white; border-radius: 8px; padding: 10px 16px;
+      font-size: 12px; color: var(--text-muted);
+    }
+
+    /* RIGHT SIDEBAR AI TUTOR */
+    .tutor-panel {
+      width: 280px;
+      background: var(--tutor-bg);
+      border-left: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+
+    .tutor-header {
+      padding: 12px 14px 10px;
+      border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .tutor-header-left { display: flex; align-items: center; gap: 8px; }
+    .tutor-avatar {
+      width: 30px; height: 30px;
+      background: linear-gradient(135deg, #1a56db, #3b82f6);
+      border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      color: white; font-size: 14px;
+    }
+    .tutor-title { font-size: 13px; font-weight: 700; color: var(--text-main); }
+    .tutor-sub { font-size: 10px; color: var(--text-muted); margin-top: 1px; }
+
+    .tutor-header-actions { display: flex; gap: 4px; align-items: center; }
+
+    .tutor-slide-badge {
+      font-size: 11px; color: var(--text-muted);
+      background: #f3f4f6; border-radius: 4px;
+      padding: 2px 8px; font-weight: 500;
+    }
+
+    .tutor-body {
+      flex: 1; overflow-y: auto; padding: 14px;
+      display: flex; flex-direction: column; gap: 14px;
+    }
+    .tutor-body::-webkit-scrollbar { width: 4px; }
+    .tutor-body::-webkit-scrollbar-thumb { background: #e5e7eb; border-radius: 4px; }
+
+    .tutor-section-title {
+      font-size: 11px; font-weight: 700;
+      color: var(--text-muted); letter-spacing: .4px;
+      text-transform: uppercase; margin-bottom: 6px;
+    }
+
+    .topic-list { display: flex; flex-direction: column; gap: 4px; }
+    .topic-item {
+      display: flex; align-items: flex-start; gap: 8px;
+      padding: 6px 8px; border-radius: 6px;
+      cursor: pointer; transition: background .15s;
+      font-size: 12px; color: var(--text-main); line-height: 1.4;
+    }
+    .topic-item:hover { background: var(--primary-light); }
+    .topic-num {
+      font-size: 10px; font-weight: 700;
+      color: var(--primary); min-width: 16px;
+      margin-top: 1px;
+    }
+
+    .source-box {
+      border: 1px solid var(--border); border-radius: var(--radius);
+      overflow: hidden;
+    }
+    .source-box-header {
+      background: #f9fafb; padding: 8px 12px;
+      display: flex; align-items: center; justify-content: space-between;
+      border-bottom: 1px solid var(--border);
+      cursor: pointer;
+    }
+    .source-box-header-left { display: flex; align-items: center; gap: 6px; }
+    .source-count {
+      font-size: 11px; font-weight: 700; color: var(--text-main);
+    }
+    .source-item {
+      padding: 8px 12px;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .source-num {
+      width: 20px; height: 20px;
+      background: var(--primary); color: white;
+      border-radius: 4px; font-size: 10px; font-weight: 700;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .source-text { font-size: 11px; color: var(--text-muted); flex: 1; }
+    .source-page {
+      font-size: 10px; color: var(--primary);
+      background: var(--primary-light); border-radius: 3px;
+      padding: 1px 6px; font-weight: 600;
+    }
+
+    .chat-msg {
+      border-radius: var(--radius);
+      padding: 10px 12px;
+      font-size: 12px; line-height: 1.5;
+    }
+    .chat-msg.user {
+      background: var(--primary); color: white;
+      margin-left: 20px;
+    }
+
+    .feedback-row {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 8px 10px;
+      background: #f9fafb; border-radius: 6px;
+      border: 1px solid var(--border);
+    }
+    .feedback-label { font-size: 11px; color: var(--text-muted); }
+    .feedback-btns { display: flex; gap: 6px; }
+    .fb-btn {
+      width: 28px; height: 28px;
+      border: 1px solid var(--border); border-radius: 6px;
+      background: white; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 14px; transition: all .15s;
+    }
+    .fb-btn:hover { background: var(--primary-light); border-color: var(--primary); }
+    .fb-btn.active-up { background: var(--green-light); border-color: var(--green); }
+    .fb-btn.active-down { background: #fee2e2; border-color: var(--red); }
+
+    .confidence-wrap {
+      display: flex; align-items: center; gap: 8px;
+      margin-top: 6px;
+    }
+    .confidence-bar {
+      flex: 1; height: 6px;
+      background: #e5e7eb; border-radius: 99px; overflow: hidden;
+    }
+    .confidence-fill {
+      height: 100%; border-radius: 99px;
+      background: linear-gradient(90deg, #0e9f6e, #34d399);
+      transition: width .5s ease;
+    }
+    .confidence-label { font-size: 10px; color: var(--text-muted); white-space: nowrap; }
+    .confidence-badge {
+      font-size: 10px; font-weight: 700;
+      color: var(--green); background: var(--green-light);
+      border-radius: 4px; padding: 2px 8px; white-space: nowrap;
+    }
+
+    .answer-bubble {
+      background: white; border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 12px;
+      font-size: 12px; line-height: 1.6; color: var(--text-main);
+    }
+    .answer-bubble .answer-status {
+      display: flex; align-items: center; gap: 6px;
+      margin-top: 10px; padding-top: 10px;
+      border-top: 1px solid var(--border);
+    }
+    .status-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--green); }
+    .status-text { font-size: 10px; font-weight: 700; color: var(--green); letter-spacing: .3px; }
+
+    /* ── CHAT HISTORY ── */
+    .chat-history { display: flex; flex-direction: column; gap: 10px; }
+
+    /* Welcome bubble */
+    .welcome-bubble {
+      background: linear-gradient(135deg, #e8f0fd, #f0f4ff);
+      border: 1px solid #bfdbfe;
+      border-radius: var(--radius); padding: 12px 14px;
+      font-size: 12px; line-height: 1.6; color: var(--text-main);
+    }
+    .welcome-bubble .bot-name {
+      display: flex; align-items: center; gap: 6px;
+      font-weight: 700; color: var(--primary); font-size: 12px;
+      margin-bottom: 6px;
+    }
+    .bot-dot {
+      width: 7px; height: 7px; border-radius: 50%;
+      background: var(--green);
+      animation: pulse-dot 2s ease infinite;
+    }
+    @keyframes pulse-dot {
+      0%,100% { box-shadow: 0 0 0 0 rgba(14,159,110,.4); }
+      50% { box-shadow: 0 0 0 5px rgba(14,159,110,0); }
+    }
+
+    /* Quick chips */
+    .quick-chips {
+      display: flex; flex-wrap: wrap; gap: 6px;
+      margin-top: 10px;
+    }
+    .chip {
+      background: white; border: 1px solid #bfdbfe;
+      border-radius: 16px; padding: 4px 10px;
+      font-size: 11px; color: var(--primary); font-weight: 500;
+      cursor: pointer; transition: all .15s; white-space: nowrap;
+      font-family: inherit;
+    }
+    .chip:hover { background: var(--primary); color: white; border-color: var(--primary); }
+
+    /* Topic jump list rendered by bot */
+    .topic-jump-list { display: flex; flex-direction: column; gap: 6px; margin-top: 8px; }
+    .topic-jump-item {
+      display: flex; align-items: center; gap: 8px;
+      padding: 7px 10px; border-radius: 6px;
+      border: 1px solid var(--border); background: #f9fafb;
+      cursor: pointer; transition: all .15s; font-size: 12px;
+    }
+    .topic-jump-item:hover { background: var(--primary-light); border-color: #bfdbfe; color: var(--primary); }
+    .topic-jump-num {
+      min-width: 22px; height: 22px;
+      background: var(--primary); color: white;
+      border-radius: 5px; font-size: 10px; font-weight: 700;
+      display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+    }
+    .topic-jump-label { flex: 1; font-weight: 500; }
+    .topic-jump-page { font-size: 10px; color: var(--text-muted); }
+    .topic-jump-arrow { color: var(--text-muted); font-size: 12px; }
+    .topic-jump-item:hover .topic-jump-arrow { color: var(--primary); }
+
+    /* Summary block */
+    .summary-block {
+      background: #fffbeb; border: 1px solid #fde68a;
+      border-radius: var(--radius); padding: 10px 12px;
+      font-size: 12px; color: var(--text-main); line-height: 1.6;
+      margin-top: 8px;
+    }
+    .summary-block strong { color: #92400e; }
+    .summary-block .summary-title {
+      font-weight: 700; font-size: 11px; color: #b45309;
+      text-transform: uppercase; letter-spacing: .4px;
+      margin-bottom: 6px; display: flex; align-items: center; gap: 5px;
+    }
+
+    /* External search block */
+    .ext-search-block {
+      background: #f0fdf4; border: 1px solid #bbf7d0;
+      border-radius: var(--radius); padding: 10px 12px;
+      font-size: 12px; color: var(--text-main); line-height: 1.6;
+      margin-top: 8px;
+    }
+    .ext-search-block .ext-title {
+      font-weight: 700; font-size: 11px; color: #065f46;
+      text-transform: uppercase; letter-spacing: .4px;
+      margin-bottom: 6px; display: flex; align-items: center; gap: 5px;
+    }
+    .ext-source-chips { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 8px; }
+    .ext-source-chip {
+      background: white; border: 1px solid #bbf7d0;
+      border-radius: 4px; padding: 2px 8px;
+      font-size: 10px; color: #059669; font-weight: 600;
+    }
+
+    /* Not-found block */
+    .notfound-block {
+      background: #fff7ed; border: 1px solid #fed7aa;
+      border-radius: var(--radius); padding: 10px 12px;
+      font-size: 12px; color: var(--text-main); line-height: 1.6;
+      margin-top: 8px;
+    }
+    .notfound-block .notfound-title {
+      font-weight: 700; font-size: 11px; color: #c2410c;
+      text-transform: uppercase; letter-spacing: .4px;
+      margin-bottom: 6px; display: flex; align-items: center; gap: 5px;
+    }
+
+    /* CHAT INPUT */
+    .tutor-input-area {
+      padding: 10px 12px;
+      border-top: 1px solid var(--border);
+      background: white;
+    }
+    .chat-input-wrap {
+      display: flex; align-items: center; gap: 8px;
+      background: #f9fafb; border: 1px solid var(--border);
+      border-radius: 24px; padding: 6px 6px 6px 14px;
+      transition: border-color .15s, box-shadow .15s;
+    }
+    .chat-input-wrap:focus-within {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(26,86,219,.12);
+    }
+    #chat-input {
+      flex: 1; border: none; background: none; outline: none;
+      font-size: 12px; font-family: inherit; color: var(--text-main);
+    }
+    #chat-input::placeholder { color: var(--text-sm); }
+    .send-btn {
+      width: 32px; height: 32px;
+      background: var(--primary); border: none; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; transition: background .15s, transform .15s;
+      flex-shrink: 0; color: white;
+    }
+    .send-btn:hover { background: var(--primary-hover); transform: scale(1.05); }
+    .send-btn:active { transform: scale(.95); }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(8px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .fade-in { animation: fadeUp .3s ease both; }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: .5; }
+    }
+    .typing-dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--text-muted); display: inline-block;
+      animation: pulse 1.2s ease infinite;
+    }
+    .typing-dot:nth-child(2) { animation-delay: .2s; }
+    .typing-dot:nth-child(3) { animation-delay: .4s; }
+    .typing-dots { display: flex; gap: 4px; align-items: center; padding: 8px 0; }
+  </style>
+</head>
+<body>
+
+<!-- TOP HEADER -->
+<header class="top-header">
+  <button class="header-back-btn" title="Quay lại" id="btn-back">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+  </button>
+
+  <a href="#" class="vlearn-logo">
+    <div class="logo-icon">VL</div>
+    <span class="logo-text">VLearn</span>
+  </a>
+
+  <div class="header-divider"></div>
+
+  <div class="header-doc-icon">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6b7280" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+      <polyline points="14 2 14 8 20 8"/>
+    </svg>
+  </div>
+
+  <div class="header-title-group">
+    <div class="header-title">day05-ai-product-thinking-requirements.pdf</div>
+    <div class="header-subtitle">COMP2010 · Lecture_material_ms204v3b_r9mo78</div>
+  </div>
+
+  <div class="header-actions">
+    <button class="lang-btn" id="btn-lang">VI</button>
+    <button class="icon-btn" title="Thông báo">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+        <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+      </svg>
+    </button>
+  </div>
+</header>
+
+<!-- MAIN LAYOUT -->
+<div class="main-layout">
+
+  <!-- LEFT SIDEBAR -->
+  <aside class="left-sidebar">
+    <div class="sidebar-header">
+      <h2>Học liệu môn học</h2>
+      <p>Chương, slide và tài liệu đã upload</p>
+    </div>
+    <nav class="sidebar-nav">
+
+      <div class="day-item">
+        <div class="day-header" onclick="toggleDay(this)">
+          <div class="day-header-left">
+            <div class="day-circle done">✓</div>
+            <div class="day-info">
+              <div class="day-name">Day01</div>
+              <div class="day-meta">2 TÀI LIỆU · PUBLISHED</div>
+            </div>
+          </div>
+          <span class="day-chevron">▼</span>
+        </div>
+        <div class="day-files">
+          <div class="file-item" onclick="selectFile(this)">
+            <span class="file-icon">📄</span>
+            <span class="file-name">day01-intro-ai-product.pdf</span>
+            <span class="file-pages">32 tr</span>
+          </div>
+          <div class="file-item" onclick="selectFile(this)">
+            <span class="file-icon">📄</span>
+            <span class="file-name">day01-lab-exercises.pdf</span>
+            <span class="file-pages">18 tr</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="day-item">
+        <div class="day-header" onclick="toggleDay(this)">
+          <div class="day-header-left">
+            <div class="day-circle done">✓</div>
+            <div class="day-info">
+              <div class="day-name">Day02</div>
+              <div class="day-meta">1 TÀI LIỆU · PUBLISHED</div>
+            </div>
+          </div>
+          <span class="day-chevron">▼</span>
+        </div>
+        <div class="day-files">
+          <div class="file-item" onclick="selectFile(this)">
+            <span class="file-icon">📄</span>
+            <span class="file-name">day02-responsible-ai.pdf</span>
+            <span class="file-pages">28 tr</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="day-item">
+        <div class="day-header" onclick="toggleDay(this)">
+          <div class="day-header-left">
+            <div class="day-circle done">✓</div>
+            <div class="day-info">
+              <div class="day-name">Day03</div>
+              <div class="day-meta">2 TÀI LIỆU · PUBLISHED</div>
+            </div>
+          </div>
+          <span class="day-chevron">▼</span>
+        </div>
+        <div class="day-files">
+          <div class="file-item" onclick="selectFile(this)">
+            <span class="file-icon">📄</span>
+            <span class="file-name">day03-user-research.pdf</span>
+            <span class="file-pages">36 tr</span>
+          </div>
+          <div class="file-item" onclick="selectFile(this)">
+            <span class="file-icon">📄</span>
+            <span class="file-name">day03-jtbd-worksheet.pdf</span>
+            <span class="file-pages">12 tr</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="day-item">
+        <div class="day-header" onclick="toggleDay(this)">
+          <div class="day-header-left">
+            <div class="day-circle done">✓</div>
+            <div class="day-info">
+              <div class="day-name">Day04</div>
+              <div class="day-meta">3 TÀI LIỆU · PUBLISHED</div>
+            </div>
+          </div>
+          <span class="day-chevron">▼</span>
+        </div>
+        <div class="day-files">
+          <div class="file-item" onclick="selectFile(this)">
+            <span class="file-icon">📄</span>
+            <span class="file-name">day04-requirements-eng.pdf</span>
+            <span class="file-pages">40 tr</span>
+          </div>
+          <div class="file-item" onclick="selectFile(this)">
+            <span class="file-icon">📄</span>
+            <span class="file-name">day04-prd-template.pdf</span>
+            <span class="file-pages">14 tr</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Day05 STUDYING -->
+      <div class="day-item" id="day05-item">
+        <div class="day-header active" onclick="toggleDay(this)">
+          <div class="day-header-left">
+            <div class="day-circle studying">5</div>
+            <div class="day-info">
+              <div class="day-name">Day05</div>
+              <div class="day-meta">3 TÀI LIỆU · <span style="color:#1a56db;font-weight:700;">STUDYING</span></div>
+            </div>
+          </div>
+          <span class="day-chevron open">▼</span>
+        </div>
+        <div class="day-files open">
+          <div class="file-item active" id="active-file" onclick="selectFile(this)">
+            <span class="file-icon active">📘</span>
+            <span class="file-name">day05-ai-product-thinki…</span>
+            <span class="file-pages">44 tr</span>
+          </div>
+          <div class="file-item" onclick="selectFile(this)">
+            <span class="file-icon">📄</span>
+            <span class="file-name">day05-user-stories.pdf</span>
+            <span class="file-pages">22 tr</span>
+          </div>
+          <div class="file-item" onclick="selectFile(this)">
+            <span class="file-icon">📄</span>
+            <span class="file-name">day05-lab-deliverable.pdf</span>
+            <span class="file-pages">10 tr</span>
+          </div>
+        </div>
+      </div>
+
+    </nav>
+  </aside>
+
+  <!-- PDF VIEWER -->
+  <main class="viewer-area">
+    <div class="viewer-toolbar">
+      <div class="toolbar-group">
+        <button class="tb-btn active" id="btn-doc" onclick="setMode('doc',this)">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+          Đọc
+        </button>
+        <button class="tb-btn" id="btn-pen" onclick="setMode('pen',this)">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+          Bút
+        </button>
+      </div>
+
+      <div class="toolbar-sep"></div>
+
+      <button class="tb-btn" onclick="prevPage()" title="Trang trước">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+      </button>
+
+      <div class="page-nav">
+        <span>Trang</span>
+        <input type="number" id="page-input" class="page-input" value="2" min="1" max="44" onchange="goToPage(this.value)"/>
+        <span>· <span id="note-count">1</span> note</span>
+      </div>
+
+      <button class="tb-btn" onclick="nextPage()" title="Trang sau">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+      </button>
+
+      <div class="toolbar-sep"></div>
+
+      <div class="zoom-group">
+        <button class="tb-btn" onclick="zoomOut()">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </button>
+        <span class="zoom-val" id="zoom-val">100%</span>
+        <button class="tb-btn" onclick="zoomIn()">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </button>
+      </div>
+
+      <div class="spacer"></div>
+
+      <button class="tb-btn" title="Tải xuống">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+      </button>
+      <button class="tb-btn" title="Toàn màn hình">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg>
+      </button>
+      <button class="tb-btn" title="Hoàn tác">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-3.29"/></svg>
+      </button>
+      <button class="tb-btn" title="Xoá">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6M14 11v6"/></svg>
+      </button>
+    </div>
+
+    <div class="viewer-scroll" id="viewer-scroll">
+
+      <!-- Page 1 -->
+      <div class="slide-wrap" id="page-1">
+        <div class="slide-meta">
+          <span>Trang 1 / 44</span>
+          <span>day05-ai-product-thinking-requirements.pdf</span>
+        </div>
+        <div class="slide-card" onclick="selectPage(1)">
+          <div class="slide-1">
+            <div class="slide-1-logo">
+              <div class="slide-1-logo-icon">V</div>
+              <span class="slide-1-logo-text">VINUNIVERSITY</span>
+            </div>
+            <h1>AI Product Thinking &amp; Requirements</h1>
+            <p>ACS-P1 · Ngày 5 · Build agent xong, nhưng sản phẩm cho ai?</p>
+            <div class="slide-1-instructor">Tên Giảng Viên</div>
+            <div class="slide-1-date">VinUniversity · Phase 1, Tử 1 · 2026</div>
+          </div>
+          <div class="note-overlay">
+            <div class="note-hint">Nhấp để xem ghi chú trang này</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Page 2 -->
+      <div class="slide-wrap" id="page-2">
+        <div class="slide-meta">
+          <span>Trang 2 / 44</span>
+          <span>day05-ai-product-thinking-requirements.pdf</span>
+        </div>
+        <div class="slide-card" onclick="selectPage(2)">
+          <div class="slide-2">
+            <div class="slide-2-tag">VinUniversity</div>
+            <blockquote>
+              "Bạn đã build agent đẹp. Nhưng<br>user không dùng. Tại sao?"
+            </blockquote>
+          </div>
+          <div class="note-overlay">
+            <div class="note-hint">Nhấp để xem ghi chú trang này</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Page 3 -->
+      <div class="slide-wrap" id="page-3">
+        <div class="slide-meta">
+          <span>Trang 3 / 44</span>
+          <span>day05-ai-product-thinking-requirements.pdf</span>
+        </div>
+        <div class="slide-card" onclick="selectPage(3)">
+          <div style="background:white;padding:32px 36px;min-height:240px;">
+            <div style="color:#1a56db;font-size:13px;font-weight:700;margin-bottom:16px;text-transform:uppercase;letter-spacing:.5px;">Agenda hôm nay</div>
+            <ol style="list-style:none;display:flex;flex-direction:column;gap:10px;">
+              <li style="display:flex;gap:10px;align-items:flex-start;">
+                <span style="background:#1a56db;color:white;border-radius:4px;width:22px;height:22px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0;">1</span>
+                <span style="font-size:13px;color:#111827;">Product thinking cho AI — Tại sao user không dùng?</span>
+              </li>
+              <li style="display:flex;gap:10px;align-items:flex-start;">
+                <span style="background:#1a56db;color:white;border-radius:4px;width:22px;height:22px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0;">2</span>
+                <span style="font-size:13px;color:#111827;">Responsible AI fundamentals</span>
+              </li>
+              <li style="display:flex;gap:10px;align-items:flex-start;">
+                <span style="background:#1a56db;color:white;border-radius:4px;width:22px;height:22px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0;">3</span>
+                <span style="font-size:13px;color:#111827;">Requirements engineering &amp; PRD anatomy</span>
+              </li>
+              <li style="display:flex;gap:10px;align-items:flex-start;">
+                <span style="background:#1a56db;color:white;border-radius:4px;width:22px;height:22px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0;">4</span>
+                <span style="font-size:13px;color:#111827;">Lab 5 + deliverable cuối buổi</span>
+              </li>
+            </ol>
+          </div>
+          <div class="note-overlay">
+            <div class="note-hint">Nhấp để xem ghi chú trang này</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Page 4 — Product Thinking Framework -->
+      <div class="slide-wrap" id="page-4">
+        <div class="slide-meta"><span>Trang 4 / 44</span><span>day05-ai-product-thinking-requirements.pdf</span></div>
+        <div class="slide-card" onclick="selectPage(4)">
+          <div style="background:white;padding:28px 32px;min-height:260px;">
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:18px;">
+              <div style="background:#1a56db;color:white;border-radius:6px;padding:4px 10px;font-size:10px;font-weight:700;letter-spacing:.5px;">PHẦN 1</div>
+              <div style="color:#6b7280;font-size:11px;">Product Thinking cho AI</div>
+            </div>
+            <h2 style="font-size:17px;font-weight:700;color:#111827;margin-bottom:16px;">Product Thinking Framework</h2>
+            <div style="display:flex;flex-direction:column;gap:10px;">
+              <div style="display:flex;gap:10px;align-items:flex-start;padding:8px 12px;background:#f0f4ff;border-radius:6px;border-left:3px solid #1a56db;">
+                <span style="font-size:13px;">🔍</span>
+                <div><div style="font-size:12px;font-weight:600;color:#1a56db;">Problem Discovery</div><div style="font-size:11px;color:#6b7280;">Xác định pain point thật của user</div></div>
+              </div>
+              <div style="display:flex;gap:10px;align-items:flex-start;padding:8px 12px;background:#f0fdf4;border-radius:6px;border-left:3px solid #0e9f6e;">
+                <span style="font-size:13px;">🎯</span>
+                <div><div style="font-size:12px;font-weight:600;color:#0e9f6e;">Solution Framing</div><div style="font-size:11px;color:#6b7280;">Đặt ra yêu cầu và giới hạn giải pháp</div></div>
+              </div>
+              <div style="display:flex;gap:10px;align-items:flex-start;padding:8px 12px;background:#fff7ed;border-radius:6px;border-left:3px solid #f59e0b;">
+                <span style="font-size:13px;">🤖</span>
+                <div><div style="font-size:12px;font-weight:600;color:#d97706;">AI Fit Assessment</div><div style="font-size:11px;color:#6b7280;">AI có phải giải pháp tối ưu không?</div></div>
+              </div>
+            </div>
+          </div>
+          <div class="note-overlay"><div class="note-hint">Nhấp để xem ghi chú</div></div>
+        </div>
+      </div>
+
+      <!-- Page 5 -->
+      <div class="slide-wrap" id="page-5">
+        <div class="slide-meta"><span>Trang 5 / 44</span><span>day05-ai-product-thinking-requirements.pdf</span></div>
+        <div class="slide-card" onclick="selectPage(5)">
+          <div style="background:white;padding:28px 32px;min-height:260px;">
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:18px;">
+              <div style="background:#1a56db;color:white;border-radius:6px;padding:4px 10px;font-size:10px;font-weight:700;letter-spacing:.5px;">PHẦN 1</div>
+              <div style="color:#6b7280;font-size:11px;">Product Thinking cho AI</div>
+            </div>
+            <h2 style="font-size:17px;font-weight:700;color:#111827;margin-bottom:16px;">Tại sao user không dùng AI?</h2>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+              <div style="background:#fef2f2;border-radius:6px;padding:10px;border-top:3px solid #ef4444;"><div style="font-size:11px;font-weight:700;color:#dc2626;margin-bottom:4px;">① Trust Gap</div><div style="font-size:11px;color:#6b7280;">User không tin tưởng output AI</div></div>
+              <div style="background:#fffbeb;border-radius:6px;padding:10px;border-top:3px solid #f59e0b;"><div style="font-size:11px;font-weight:700;color:#d97706;margin-bottom:4px;">② UX Friction</div><div style="font-size:11px;color:#6b7280;">Trải nghiệm dùng quá phức tạp</div></div>
+              <div style="background:#f0fdf4;border-radius:6px;padding:10px;border-top:3px solid #0e9f6e;"><div style="font-size:11px;font-weight:700;color:#059669;margin-bottom:4px;">③ Expectation Mismatch</div><div style="font-size:11px;color:#6b7280;">AI không làm đúng kỳ vọng</div></div>
+              <div style="background:#f0f4ff;border-radius:6px;padding:10px;border-top:3px solid #1a56db;"><div style="font-size:11px;font-weight:700;color:#1a56db;margin-bottom:4px;">④ No Clear JTBD</div><div style="font-size:11px;color:#6b7280;">Không có job-to-be-done rõ ràng</div></div>
+              <div style="background:#fdf4ff;border-radius:6px;padding:10px;border-top:3px solid #9333ea;grid-column:1/-1;"><div style="font-size:11px;font-weight:700;color:#7c3aed;margin-bottom:4px;">⑤ Lack of Feedback Loop</div><div style="font-size:11px;color:#6b7280;">Không có cơ chế cải thiện liên tục</div></div>
+            </div>
+          </div>
+          <div class="note-overlay"><div class="note-hint">Nhấp để xem ghi chú</div></div>
+        </div>
+      </div>
+
+      <!-- Page 6 -->
+      <div class="slide-wrap" id="page-6">
+        <div class="slide-meta"><span>Trang 6 / 44</span><span>day05-ai-product-thinking-requirements.pdf</span></div>
+        <div class="slide-card" onclick="selectPage(6)">
+          <div style="background:linear-gradient(135deg,#1e3a6e,#1a56db);padding:32px 36px;min-height:240px;display:flex;flex-direction:column;justify-content:center;">
+            <div style="color:rgba(255,255,255,.6);font-size:11px;font-weight:600;letter-spacing:.8px;text-transform:uppercase;margin-bottom:12px;">PHẦN 1 · WRAP-UP</div>
+            <h2 style="color:white;font-size:18px;font-weight:700;margin-bottom:12px;">Jobs-to-be-Done cho AI Products</h2>
+            <div style="display:flex;flex-direction:column;gap:8px;">
+              <div style="background:rgba(255,255,255,.12);border-radius:6px;padding:8px 12px;color:rgba(255,255,255,.9);font-size:12px;">📌 <strong>Functional Job:</strong> Tôi muốn AI tóm tắt email nhanh</div>
+              <div style="background:rgba(255,255,255,.12);border-radius:6px;padding:8px 12px;color:rgba(255,255,255,.9);font-size:12px;">💚 <strong>Emotional Job:</strong> Tôi muốn cảm thấy kiểm soát được thông tin</div>
+              <div style="background:rgba(255,255,255,.12);border-radius:6px;padding:8px 12px;color:rgba(255,255,255,.9);font-size:12px;">👥 <strong>Social Job:</strong> Tôi muốn đồng nghiệp thấy tôi làm việc hiệu quả</div>
+            </div>
+          </div>
+          <div class="note-overlay"><div class="note-hint">Nhấp để xem ghi chú</div></div>
+        </div>
+      </div>
+
+      <!-- Page 7 — User Research -->
+      <div class="slide-wrap" id="page-7">
+        <div class="slide-meta"><span>Trang 7 / 44</span><span>day05-ai-product-thinking-requirements.pdf</span></div>
+        <div class="slide-card" onclick="selectPage(7)">
+          <div style="background:white;padding:28px 32px;min-height:260px;">
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:18px;">
+              <div style="background:#0e9f6e;color:white;border-radius:6px;padding:4px 10px;font-size:10px;font-weight:700;letter-spacing:.5px;">PHẦN 3</div>
+              <div style="color:#6b7280;font-size:11px;">User Research cho AI</div>
+            </div>
+            <h2 style="font-size:17px;font-weight:700;color:#111827;margin-bottom:16px;">Phương pháp User Research đặc thù cho AI</h2>
+            <div style="display:flex;flex-direction:column;gap:8px;">
+              <div style="display:flex;gap:8px;padding:8px;background:#f9fafb;border-radius:6px;"><span style="font-size:14px;">🔬</span><div><strong style="font-size:12px;">Contextual Inquiry</strong><div style="font-size:11px;color:#6b7280;">Quan sát user trong môi trường thực tế</div></div></div>
+              <div style="display:flex;gap:8px;padding:8px;background:#f9fafb;border-radius:6px;"><span style="font-size:14px;">🪄</span><div><strong style="font-size:12px;">Wizard of Oz Testing</strong><div style="font-size:11px;color:#6b7280;">Giả lập AI bằng con người ẩn danh</div></div></div>
+              <div style="display:flex;gap:8px;padding:8px;background:#f9fafb;border-radius:6px;"><span style="font-size:14px;">👁️</span><div><strong style="font-size:12px;">Shadowing</strong><div style="font-size:11px;color:#6b7280;">Theo dõi luồng quyết định của user</div></div></div>
+              <div style="display:flex;gap:8px;padding:8px;background:#f9fafb;border-radius:6px;"><span style="font-size:14px;">🧠</span><div><strong style="font-size:12px;">Mental Model Interview</strong><div style="font-size:11px;color:#6b7280;">Hỏi về kỳ vọng và hiểu biết của user về AI</div></div></div>
+            </div>
+          </div>
+          <div class="note-overlay"><div class="note-hint">Nhấp để xem ghi chú</div></div>
+        </div>
+      </div>
+
+      <!-- Page 8 — Responsible AI -->
+      <div class="slide-wrap" id="page-8">
+        <div class="slide-meta"><span>Trang 8 / 44</span><span>day05-ai-product-thinking-requirements.pdf</span></div>
+        <div class="slide-card" onclick="selectPage(8)">
+          <div style="background:white;padding:28px 32px;min-height:260px;">
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:18px;">
+              <div style="background:#7c3aed;color:white;border-radius:6px;padding:4px 10px;font-size:10px;font-weight:700;letter-spacing:.5px;">PHẦN 2</div>
+              <div style="color:#6b7280;font-size:11px;">Responsible AI</div>
+            </div>
+            <h2 style="font-size:17px;font-weight:700;color:#111827;margin-bottom:16px;">6 Nguyên tắc Responsible AI</h2>
+            <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;">
+              <div style="background:#fdf4ff;border-radius:6px;padding:8px;text-align:center;"><div style="font-size:16px;">⚖️</div><div style="font-size:10px;font-weight:700;color:#7c3aed;margin-top:3px;">Fairness</div></div>
+              <div style="background:#f0fdf4;border-radius:6px;padding:8px;text-align:center;"><div style="font-size:16px;">🛡️</div><div style="font-size:10px;font-weight:700;color:#059669;margin-top:3px;">Reliability</div></div>
+              <div style="background:#fff7ed;border-radius:6px;padding:8px;text-align:center;"><div style="font-size:16px;">🔒</div><div style="font-size:10px;font-weight:700;color:#d97706;margin-top:3px;">Privacy</div></div>
+              <div style="background:#f0f4ff;border-radius:6px;padding:8px;text-align:center;"><div style="font-size:16px;">🌍</div><div style="font-size:10px;font-weight:700;color:#1a56db;margin-top:3px;">Inclusiveness</div></div>
+              <div style="background:#fef2f2;border-radius:6px;padding:8px;text-align:center;"><div style="font-size:16px;">🔍</div><div style="font-size:10px;font-weight:700;color:#dc2626;margin-top:3px;">Transparency</div></div>
+              <div style="background:#f9fafb;border-radius:6px;padding:8px;text-align:center;"><div style="font-size:16px;">📋</div><div style="font-size:10px;font-weight:700;color:#374151;margin-top:3px;">Accountability</div></div>
+            </div>
+          </div>
+          <div class="note-overlay"><div class="note-hint">Nhấp để xem ghi chú</div></div>
+        </div>
+      </div>
+
+      <!-- Pages 9-14 placeholder block -->
+      <div class="slide-wrap" id="page-9">
+        <div class="slide-meta"><span>Trang 9 / 44</span><span>day05-ai-product-thinking-requirements.pdf</span></div>
+        <div class="slide-card" onclick="selectPage(9)">
+          <div style="background:white;padding:28px 32px;min-height:200px;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:12px;">
+            <div style="background:#7c3aed;color:white;border-radius:6px;padding:4px 10px;font-size:10px;font-weight:700;">PHẦN 2 · Responsible AI</div>
+            <div style="font-size:15px;font-weight:600;color:#374151;text-align:center;">Fairness trong thực tế</div>
+            <div style="color:#9ca3af;font-size:11px;text-align:center;">Bias detection · Demographic parity<br>Equal opportunity metrics</div>
+            <div style="display:flex;gap:8px;margin-top:8px;">
+              <div style="background:#fdf4ff;border-radius:4px;padding:4px 10px;font-size:10px;color:#7c3aed;font-weight:600;">Bias</div>
+              <div style="background:#fdf4ff;border-radius:4px;padding:4px 10px;font-size:10px;color:#7c3aed;font-weight:600;">Fairness</div>
+              <div style="background:#fdf4ff;border-radius:4px;padding:4px 10px;font-size:10px;color:#7c3aed;font-weight:600;">Equity</div>
+            </div>
+          </div>
+          <div class="note-overlay"><div class="note-hint">Nhấp để xem ghi chú</div></div>
+        </div>
+      </div>
+
+      <!-- Page 15 — Requirements Engineering -->
+      <div class="slide-wrap" id="page-15">
+        <div class="slide-meta"><span>Trang 15 / 44</span><span>day05-ai-product-thinking-requirements.pdf</span></div>
+        <div class="slide-card" onclick="selectPage(15)">
+          <div style="background:white;padding:28px 32px;min-height:260px;">
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:18px;">
+              <div style="background:#f59e0b;color:white;border-radius:6px;padding:4px 10px;font-size:10px;font-weight:700;letter-spacing:.5px;">PHẦN 4</div>
+              <div style="color:#6b7280;font-size:11px;">Requirements Engineering</div>
+            </div>
+            <h2 style="font-size:17px;font-weight:700;color:#111827;margin-bottom:16px;">Requirements cho AI System</h2>
+            <table style="width:100%;border-collapse:collapse;font-size:11px;">
+              <thead><tr style="background:#f9fafb;"><th style="padding:6px 8px;text-align:left;color:#6b7280;font-weight:600;border-bottom:1px solid #e5e7eb;">Loại</th><th style="padding:6px 8px;text-align:left;color:#6b7280;font-weight:600;border-bottom:1px solid #e5e7eb;">Ví dụ</th><th style="padding:6px 8px;text-align:left;color:#6b7280;font-weight:600;border-bottom:1px solid #e5e7eb;">Metric</th></tr></thead>
+              <tbody>
+                <tr style="border-bottom:1px solid #f3f4f6;"><td style="padding:6px 8px;font-weight:600;color:#1a56db;">Functional</td><td style="padding:6px 8px;color:#374151;">AI phải tóm tắt email</td><td style="padding:6px 8px;color:#6b7280;">&lt; 50 words</td></tr>
+                <tr style="border-bottom:1px solid #f3f4f6;"><td style="padding:6px 8px;font-weight:600;color:#0e9f6e;">Quality</td><td style="padding:6px 8px;color:#374151;">Độ chính xác ≥ 85%</td><td style="padding:6px 8px;color:#6b7280;">F1-score</td></tr>
+                <tr style="border-bottom:1px solid #f3f4f6;"><td style="padding:6px 8px;font-weight:600;color:#f59e0b;">Data</td><td style="padding:6px 8px;color:#374151;">10K labeled samples</td><td style="padding:6px 8px;color:#6b7280;">Diversity</td></tr>
+                <tr><td style="padding:6px 8px;font-weight:600;color:#7c3aed;">Safety</td><td style="padding:6px 8px;color:#374151;">Không xuất PII</td><td style="padding:6px 8px;color:#6b7280;">0 breach</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="note-overlay"><div class="note-hint">Nhấp để xem ghi chú</div></div>
+        </div>
+      </div>
+
+      <!-- Page 21 — PRD -->
+      <div class="slide-wrap" id="page-21">
+        <div class="slide-meta"><span>Trang 21 / 44</span><span>day05-ai-product-thinking-requirements.pdf</span></div>
+        <div class="slide-card" onclick="selectPage(21)">
+          <div style="background:white;padding:28px 32px;min-height:260px;">
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:18px;">
+              <div style="background:#ef4444;color:white;border-radius:6px;padding:4px 10px;font-size:10px;font-weight:700;letter-spacing:.5px;">PHẦN 5</div>
+              <div style="color:#6b7280;font-size:11px;">PRD Anatomy cho AI</div>
+            </div>
+            <h2 style="font-size:17px;font-weight:700;color:#111827;margin-bottom:16px;">Cấu trúc PRD cho AI Product</h2>
+            <div style="display:flex;flex-direction:column;gap:6px;">
+              <div style="display:flex;gap:8px;align-items:center;padding:6px 10px;background:#fef2f2;border-radius:6px;"><span style="font-size:11px;font-weight:700;color:#dc2626;min-width:20px;">§1</span><span style="font-size:11px;color:#374151;">Problem Statement & User Pain</span></div>
+              <div style="display:flex;gap:8px;align-items:center;padding:6px 10px;background:#fef2f2;border-radius:6px;"><span style="font-size:11px;font-weight:700;color:#dc2626;min-width:20px;">§2</span><span style="font-size:11px;color:#374151;">AI Solution Overview & Lát cắt</span></div>
+              <div style="display:flex;gap:8px;align-items:center;padding:6px 10px;background:#fef2f2;border-radius:6px;"><span style="font-size:11px;font-weight:700;color:#dc2626;min-width:20px;">§3</span><span style="font-size:11px;color:#374151;">AI Behavior Specification</span></div>
+              <div style="display:flex;gap:8px;align-items:center;padding:6px 10px;background:#fef2f2;border-radius:6px;"><span style="font-size:11px;font-weight:700;color:#dc2626;min-width:20px;">§4</span><span style="font-size:11px;color:#374151;">Fallback & Error Handling</span></div>
+              <div style="display:flex;gap:8px;align-items:center;padding:6px 10px;background:#fef2f2;border-radius:6px;"><span style="font-size:11px;font-weight:700;color:#dc2626;min-width:20px;">§5</span><span style="font-size:11px;color:#374151;">Confidence Thresholds & HITL</span></div>
+              <div style="display:flex;gap:8px;align-items:center;padding:6px 10px;background:#fef2f2;border-radius:6px;"><span style="font-size:11px;font-weight:700;color:#dc2626;min-width:20px;">§6</span><span style="font-size:11px;color:#374151;">Metrics & Success Criteria</span></div>
+            </div>
+          </div>
+          <div class="note-overlay"><div class="note-hint">Nhấp để xem ghi chú</div></div>
+        </div>
+      </div>
+
+      <!-- Page 29 — User Stories -->
+      <div class="slide-wrap" id="page-29">
+        <div class="slide-meta"><span>Trang 29 / 44</span><span>day05-ai-product-thinking-requirements.pdf</span></div>
+        <div class="slide-card" onclick="selectPage(29)">
+          <div style="background:white;padding:28px 32px;min-height:260px;">
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:18px;">
+              <div style="background:#0891b2;color:white;border-radius:6px;padding:4px 10px;font-size:10px;font-weight:700;letter-spacing:.5px;">PHẦN 6</div>
+              <div style="color:#6b7280;font-size:11px;">User Stories cho AI</div>
+            </div>
+            <h2 style="font-size:17px;font-weight:700;color:#111827;margin-bottom:8px;">User Story Template cho AI</h2>
+            <div style="background:#f0f9ff;border:1px solid #bae6fd;border-radius:8px;padding:14px;margin-bottom:12px;font-size:12px;line-height:1.7;color:#0c4a6e;">
+              <strong>As a</strong> [học viên đang xem slide] <br>
+              <strong>I want</strong> [AI tóm tắt nội dung trang hiện tại]<br>
+              <strong>So that</strong> [tôi hiểu nhanh mà không cần đọc hết]<br>
+              <strong>AND I trust it because</strong> [bot trích dẫn đúng số trang]
+            </div>
+            <div style="font-size:11px;color:#6b7280;font-weight:600;margin-bottom:6px;">Acceptance Criteria:</div>
+            <div style="display:flex;flex-direction:column;gap:4px;">
+              <div style="font-size:11px;color:#374151;">✅ Tóm tắt ≤ 100 từ</div>
+              <div style="font-size:11px;color:#374151;">✅ Hiển thị trích dẫn [Trang N]</div>
+              <div style="font-size:11px;color:#374151;">✅ Confidence score ≥ 80%</div>
+            </div>
+          </div>
+          <div class="note-overlay"><div class="note-hint">Nhấp để xem ghi chú</div></div>
+        </div>
+      </div>
+
+      <!-- Page 34 — Risk Register -->
+      <div class="slide-wrap" id="page-34">
+        <div class="slide-meta"><span>Trang 34 / 44</span><span>day05-ai-product-thinking-requirements.pdf</span></div>
+        <div class="slide-card" onclick="selectPage(34)">
+          <div style="background:white;padding:28px 32px;min-height:260px;">
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:18px;">
+              <div style="background:#dc2626;color:white;border-radius:6px;padding:4px 10px;font-size:10px;font-weight:700;letter-spacing:.5px;">PHẦN 7</div>
+              <div style="color:#6b7280;font-size:11px;">Risk Register & Go/No-Go</div>
+            </div>
+            <h2 style="font-size:17px;font-weight:700;color:#111827;margin-bottom:14px;">Risk Register Template</h2>
+            <table style="width:100%;border-collapse:collapse;font-size:11px;">
+              <thead><tr style="background:#fef2f2;"><th style="padding:6px 8px;text-align:left;color:#6b7280;font-weight:600;border-bottom:1px solid #fecaca;">Rủi ro</th><th style="padding:6px 8px;text-align:center;color:#6b7280;font-weight:600;border-bottom:1px solid #fecaca;">Impact</th><th style="padding:6px 8px;text-align:center;color:#6b7280;font-weight:600;border-bottom:1px solid #fecaca;">Xác suất</th><th style="padding:6px 8px;text-align:left;color:#6b7280;font-weight:600;border-bottom:1px solid #fecaca;">Mitigation</th></tr></thead>
+              <tbody>
+                <tr style="border-bottom:1px solid #f3f4f6;"><td style="padding:6px 8px;">Hallucination</td><td style="padding:6px 8px;text-align:center;"><span style="background:#fef2f2;color:#dc2626;border-radius:3px;padding:1px 6px;font-weight:700;">HIGH</span></td><td style="padding:6px 8px;text-align:center;color:#6b7280;">70%</td><td style="padding:6px 8px;color:#6b7280;">RAG + HITL</td></tr>
+                <tr style="border-bottom:1px solid #f3f4f6;"><td style="padding:6px 8px;">Bias</td><td style="padding:6px 8px;text-align:center;"><span style="background:#fffbeb;color:#d97706;border-radius:3px;padding:1px 6px;font-weight:700;">MED</span></td><td style="padding:6px 8px;text-align:center;color:#6b7280;">45%</td><td style="padding:6px 8px;color:#6b7280;">Audit data</td></tr>
+                <tr><td style="padding:6px 8px;">Latency cao</td><td style="padding:6px 8px;text-align:center;"><span style="background:#f0fdf4;color:#059669;border-radius:3px;padding:1px 6px;font-weight:700;">LOW</span></td><td style="padding:6px 8px;text-align:center;color:#6b7280;">30%</td><td style="padding:6px 8px;color:#6b7280;">Caching</td></tr>
+              </tbody>
+            </table>
+            <div style="margin-top:12px;padding:8px 12px;background:#f9fafb;border-radius:6px;font-size:11px;color:#374151;">
+              <strong>Go/No-Go Decision:</strong> Tất cả HIGH risk phải có mitigation trước khi deploy
+            </div>
+          </div>
+          <div class="note-overlay"><div class="note-hint">Nhấp để xem ghi chú</div></div>
+        </div>
+      </div>
+
+      <!-- Page 41 — Lab 5 -->
+      <div class="slide-wrap" id="page-41">
+        <div class="slide-meta"><span>Trang 41 / 44</span><span>day05-ai-product-thinking-requirements.pdf</span></div>
+        <div class="slide-card" onclick="selectPage(41)">
+          <div style="background:linear-gradient(135deg,#064e3b,#0e9f6e);padding:32px 36px;min-height:260px;display:flex;flex-direction:column;justify-content:center;">
+            <div style="color:rgba(255,255,255,.6);font-size:11px;font-weight:600;letter-spacing:.8px;text-transform:uppercase;margin-bottom:12px;">PHẦN 8 · LAB 5</div>
+            <h2 style="color:white;font-size:19px;font-weight:700;margin-bottom:8px;">Deliverable cuối buổi</h2>
+            <p style="color:rgba(255,255,255,.75);font-size:12px;margin-bottom:16px;">Nộp trước 17:00 hôm nay</p>
+            <div style="display:flex;flex-direction:column;gap:8px;">
+              <div style="background:rgba(255,255,255,.12);border-radius:6px;padding:8px 12px;display:flex;gap:8px;align-items:center;"><span style="color:white;font-size:13px;">1️⃣</span><span style="color:rgba(255,255,255,.9);font-size:12px;">AI Spec (1 trang) theo template §1–§6</span></div>
+              <div style="background:rgba(255,255,255,.12);border-radius:6px;padding:8px 12px;display:flex;gap:8px;align-items:center;"><span style="color:white;font-size:13px;">2️⃣</span><span style="color:rgba(255,255,255,.9);font-size:12px;">Risk Register (≥3 rủi ro)</span></div>
+              <div style="background:rgba(255,255,255,.12);border-radius:6px;padding:8px 12px;display:flex;gap:8px;align-items:center;"><span style="color:white;font-size:13px;">3️⃣</span><span style="color:rgba(255,255,255,.9);font-size:12px;">≥2 User Stories theo format AI</span></div>
+              <div style="background:rgba(255,255,255,.12);border-radius:6px;padding:8px 12px;display:flex;gap:8px;align-items:center;"><span style="color:white;font-size:13px;">4️⃣</span><span style="color:rgba(255,255,255,.9);font-size:12px;">Prototype: Sketch / Mock / Working</span></div>
+            </div>
+          </div>
+          <div class="note-overlay"><div class="note-hint">Nhấp để xem ghi chú</div></div>
+        </div>
+      </div>
+
+      <!-- Page 44 — End -->
+      <div class="slide-wrap" id="page-44">
+        <div class="slide-meta"><span>Trang 44 / 44</span><span>day05-ai-product-thinking-requirements.pdf</span></div>
+        <div class="slide-card" onclick="selectPage(44)">
+          <div style="background:linear-gradient(135deg,#1e3a6e,#1a56db);padding:40px 36px;min-height:260px;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;">
+            <div style="font-size:36px;margin-bottom:16px;">🎓</div>
+            <h2 style="color:white;font-size:20px;font-weight:700;margin-bottom:10px;">Hết buổi Day 05</h2>
+            <p style="color:rgba(255,255,255,.7);font-size:13px;max-width:320px;line-height:1.6;">Chúc các bạn hackathon thành công! Hãy build sản phẩm AI mà user thật sự muốn dùng 🚀</p>
+            <div style="margin-top:20px;background:rgba(255,255,255,.15);border-radius:8px;padding:10px 20px;">
+              <div style="color:rgba(255,255,255,.6);font-size:10px;letter-spacing:.5px;text-transform:uppercase;">VinUniversity · COMP2010 · 2026</div>
+            </div>
+          </div>
+          <div class="note-overlay"><div class="note-hint">Nhấp để xem ghi chú</div></div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- RIGHT TUTOR PANEL -->
+  <aside class="tutor-panel">
+    <div class="tutor-header">
+      <div class="tutor-header-left">
+        <div class="tutor-avatar">🤖</div>
+        <div>
+          <div class="tutor-title">VLearn Tutor</div>
+          <div class="tutor-sub">Trợ lý học theo ngữ cảnh</div>
+        </div>
+      </div>
+      <div class="tutor-header-actions">
+        <button class="icon-btn" title="Xoá hội thoại" onclick="clearChat()">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6M14 11v6"/></svg>
+        </button>
+        <div class="tutor-slide-badge" id="slide-badge">Trang slide: 2</div>
+      </div>
+    </div>
+
+    <!-- Chat message history -->
+    <div class="tutor-body" id="tutor-body">
+      <!-- messages injected by JS -->
+    </div>
+
+    <!-- Source reference box -->
+    <div style="padding:0 12px 8px;flex-shrink:0;" id="source-wrap">
+      <div class="source-box" style="display:none;" id="source-box">
+        <div class="source-box-header" onclick="toggleSource()">
+          <div class="source-box-header-left">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#6b7280" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+            <span class="source-count" id="source-count">1 nguồn tham khảo</span>
+          </div>
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#6b7280" stroke-width="2" id="source-chevron"><polyline points="18 15 12 9 6 15"/></svg>
+        </div>
+        <div class="source-item" id="source-content">
+          <div class="source-num">1</div>
+          <div class="source-text" id="source-text">Slide Day05</div>
+          <div class="source-page" id="source-page">Tr.1</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Feedback row -->
+    <div style="padding:0 12px 8px;flex-shrink:0;" id="feedback-wrap" style="display:none;">
+      <div class="feedback-row">
+        <span class="feedback-label">Phản hồi này có hữu ích không?</span>
+        <div class="feedback-btns">
+          <button class="fb-btn" id="btn-thumbup" title="Hữu ích" onclick="thumbFeedback('up')">👍</button>
+          <button class="fb-btn" id="btn-thumbdown" title="Không hữu ích" onclick="thumbFeedback('down')">👎</button>
+        </div>
+      </div>
+      <div class="confidence-wrap">
+        <div class="confidence-bar">
+          <div class="confidence-fill" id="conf-fill" style="width:0%"></div>
+        </div>
+        <span class="confidence-label" id="conf-label">–</span>
+        <span class="confidence-badge" id="conf-badge" style="display:none">● ĐÃ TRẢ LỜI</span>
+      </div>
+    </div>
+
+
+    <div class="tutor-input-area">
+      <div class="chat-input-wrap">
+        <input type="text" id="chat-input" placeholder="Nhập câu hỏi hoặc bôi tài liệu…" onkeydown="handleKey(event)"/>
+        <button class="send-btn" onclick="sendMessage()" title="Gửi">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+        </button>
+      </div>
+    </div>
+  </aside>
+
+</div>
+
+<script>
+  let currentPage = 2;
+  const totalPages = 44;
+  let zoomLevel = 100;
+  let isTyping = false;
+  let sourceOpen = true;
+
+  // ═══════════════════════════════════════════════
+  //  SLIDE DATA — used for Case 1 (list) & Case 2 (summarize)
+  // ═══════════════════════════════════════════════
+  const slideData = [
+    { page: 1, title: 'Trang bìa', summary: 'Trang bìa bài giảng <strong>"AI Product Thinking & Requirements"</strong> của khoá ACS-P1 Ngày 5. Giảng viên: VinUniversity. Chủ đề xuyên suốt: Build agent xong, nhưng sản phẩm cho ai?' },
+    { page: 2, title: 'Câu hỏi cốt lõi', summary: 'Slide provocative mở đầu với câu hỏi cốt lõi: <em>"Bạn đã build agent đẹp. Nhưng user không dùng. Tại sao?"</em> Đặt bối cảnh cho toàn bộ bài học về product thinking.' },
+    { page: 3, title: 'Agenda hôm nay', summary: 'Agenda ngày học gồm 4 chủ đề chính: ① Product thinking cho AI, ② Responsible AI fundamentals, ③ Requirements engineering & PRD anatomy, ④ Lab 5 + deliverable cuối buổi.' },
+    { page: 4, title: 'Product Thinking Framework', summary: 'Giới thiệu Product Thinking Framework cho AI: từ <strong>problem discovery</strong> → <strong>solution framing</strong> → <strong>AI fit assessment</strong>. Nhấn mạnh: AI không phải lúc nào cũng là giải pháp tốt nhất.' },
+    { page: 5, title: 'Tại sao user không dùng AI?', summary: 'Phân tích 5 nguyên nhân phổ biến khiến user không dùng sản phẩm AI: ① Trust gap, ② UX friction, ③ Expectation mismatch, ④ No clear job-to-be-done, ⑤ Lack of feedback loop.' },
+    { page: 6, title: 'Jobs-to-be-Done cho AI', summary: 'Áp dụng framework JTBD (Jobs-to-be-Done) vào AI products: xác định <em>functional jobs</em>, <em>emotional jobs</em> và <em>social jobs</em> mà AI cần thực hiện thay cho user.' },
+    { page: 7, title: 'User Research cho AI', summary: 'Phương pháp user research đặc thù cho AI: contextual inquiry, wizard-of-oz testing, và shadowing. Chú ý mental model của user về khả năng AI.' },
+    { page: 8, title: 'Responsible AI Fundamentals', summary: 'Giới thiệu 6 nguyên tắc Microsoft Responsible AI: Fairness, Reliability & Safety, Privacy & Security, Inclusiveness, Transparency, Accountability.' }
+  ];
+
+  const slideTopics = [
+    { num: 1, label: 'Product thinking cho AI', page: 4, pages: '4–6' },
+    { num: 2, label: 'Responsible AI fundamentals', page: 8, pages: '8–11' },
+    { num: 3, label: 'User research cho AI products', page: 7, pages: '7, 12–14' },
+    { num: 4, label: 'Requirements engineering', page: 15, pages: '15–20' },
+    { num: 5, label: 'PRD anatomy cho AI products', page: 21, pages: '21–28' },
+    { num: 6, label: 'User stories cho AI', page: 29, pages: '29–33' },
+    { num: 7, label: 'Risk register & go/no-go', page: 34, pages: '34–40' },
+    { num: 8, label: 'Lab 5 + deliverable cuối buổi', page: 41, pages: '41–44' }
+  ];
+
+  // External knowledge base (Case 3)
+  const externalKB = [
+    {
+      keys: ['gpt', 'chatgpt', 'openai', 'gpt-4'],
+      title: 'GPT-4 / OpenAI Models',
+      content: '<strong>GPT-4</strong> là mô hình ngôn ngữ lớn (LLM) của OpenAI, ra mắt tháng 3/2023. Điểm mạnh: reasoning, code, multilingual. GPT-4o (2024) nhanh hơn và rẻ hơn GPT-4 Turbo. Trong context xây dựng AI product, GPT-4 thường được dùng làm backbone cho chatbot, summarization, và code assist.',
+      sources: ['openai.com/gpt-4', 'Wikipedia: GPT-4', 'arxiv: GPT-4 Technical Report']
+    },
+    {
+      keys: ['rag', 'retrieval', 'vector database', 'chromadb', 'pinecone'],
+      title: 'RAG — Retrieval-Augmented Generation',
+      content: '<strong>RAG (Retrieval-Augmented Generation)</strong> là kỹ thuật kết hợp LLM với hệ thống tìm kiếm tài liệu. Flow: query → embed → search vector DB → inject context vào prompt → LLM trả lời. Ưu điểm: giảm hallucination, cập nhật knowledge mà không cần retrain. Các vector DB phổ biến: Pinecone, ChromaDB, Weaviate.',
+      sources: ['arxiv.org/abs/2005.11401', 'LangChain Docs', 'llamaindex.ai']
+    },
+    {
+      keys: ['langchain', 'llamaindex', 'agent framework', 'agent'],
+      title: 'AI Agent Frameworks',
+      content: '<strong>LangChain</strong> và <strong>LlamaIndex</strong> là 2 framework phổ biến để build AI agents. LangChain mạnh về chains & tools. LlamaIndex chuyên về data ingestion & RAG. Năm 2024, LangGraph (graph-based agent orchestration) nổi lên cho multi-agent workflows phức tạp.',
+      sources: ['langchain.com', 'llamaindex.ai', 'GitHub LangGraph']
+    },
+    {
+      keys: ['fine-tuning', 'finetune', 'lora', 'rlhf'],
+      title: 'Fine-tuning & RLHF',
+      content: '<strong>Fine-tuning</strong> là quá trình tiếp tục huấn luyện LLM trên dataset chuyên biệt. <strong>LoRA</strong> (Low-Rank Adaptation) là kỹ thuật fine-tuning hiệu quả hơn bằng cách chỉ update một số weight nhỏ. <strong>RLHF</strong> (Reinforcement Learning from Human Feedback) giúp align model với preference của người dùng.',
+      sources: ['arxiv: LoRA paper', 'HuggingFace PEFT Docs', 'OpenAI: InstructGPT']
+    },
+    {
+      keys: ['hallucination', 'ảo giác', 'bịa'],
+      title: 'AI Hallucination',
+      content: '<strong>Hallucination</strong> là hiện tượng AI tạo ra thông tin sai lệch nhưng tự tin. Nguyên nhân: training data bias, không có grounding. Cách giảm thiểu: RAG, chain-of-thought prompting, fact-checking layer, confidence score, human-in-the-loop. Đây là thách thức lớn nhất trong production AI.',
+      sources: ['arxiv: Survey on Hallucination', 'DeepMind Research', 'Anthropic Safety']
+    },
+    {
+      keys: ['prompt engineering', 'prompt', 'system prompt'],
+      title: 'Prompt Engineering',
+      content: '<strong>Prompt Engineering</strong> là nghệ thuật thiết kế input cho LLM để ra output mong muốn. Các kỹ thuật: Zero-shot, Few-shot, Chain-of-Thought (CoT), Tree-of-Thought, ReAct. System prompt define persona và constraints. Prompt injection là rủi ro bảo mật cần xử lý.',
+      sources: ['promptingguide.ai', 'OpenAI Cookbook', 'Anthropic Prompt Library']
+    },
+    {
+      keys: ['claude', 'anthropic'],
+      title: 'Claude / Anthropic',
+      content: '<strong>Claude</strong> là dòng LLM của Anthropic, nổi bật về safety và long context (200K tokens với Claude 3). Claude 3.5 Sonnet (2024) cạnh tranh trực tiếp GPT-4o. Anthropic dùng <strong>Constitutional AI</strong> để align model theo một bộ nguyên tắc được định nghĩa trước.',
+      sources: ['anthropic.com', 'Claude 3 Model Card', 'Constitutional AI paper']
+    }
+  ];
+
+  // ═══════════════════════════════════════════════
+  //  CHAT ENGINE
+  // ═══════════════════════════════════════════════
+
+  function classifyIntent(q) {
+    const ql = q.toLowerCase().trim();
+
+    // Case 1: List topics
+    if (/list|liệt kê|danh sách|nội dung học|mục lục|các chủ đề|show topic|show slide/.test(ql)) return 'LIST_TOPICS';
+
+    // Case 2: Summarize page(s)
+    const sumMatch = ql.match(/tóm tắt|tóm lược|summary|summarize|tổng hợp/);
+    const pageMatch = ql.match(/trang\s*(\d+)(?:\s*(?:đến|đến trang|to|-)\s*trang?\s*(\d+))?/);
+    if (sumMatch && pageMatch) {
+      return { type: 'SUMMARIZE', from: parseInt(pageMatch[1]), to: pageMatch[2] ? parseInt(pageMatch[2]) : parseInt(pageMatch[1]) };
+    }
+    if (sumMatch) {
+      return { type: 'SUMMARIZE', from: currentPage, to: currentPage };
+    }
+
+    // Case 3: External search
+    for (const entry of externalKB) {
+      if (entry.keys.some(k => ql.includes(k))) return { type: 'EXTERNAL', entry };
+    }
+
+    // Default: in-slide Q&A
+    return 'QA';
+  }
+
+  function buildListResponse() {
+    return {
+      type: 'LIST_TOPICS',
+      confidence: 98
+    };
+  }
+
+  function buildSummarizeResponse(from, to) {
+    const pages = [];
+    for (let i = from; i <= Math.min(to, 8); i++) {
+      const s = slideData.find(d => d.page === i);
+      if (s) pages.push(s);
+    }
+    if (!pages.length) {
+      return { type: 'NOT_FOUND', message: `Tôi không có nội dung tóm tắt cho trang ${from}${to !== from ? '–' + to : ''} trong dữ liệu hiện tại. Demo chỉ có chi tiết cho trang 1–8.` };
+    }
+    return { type: 'SUMMARIZE', pages, confidence: 90 };
+  }
+
+  function buildExternalResponse(entry) {
+    return { type: 'EXTERNAL', entry, confidence: 78 };
+  }
+
+  const qaBank = {
+    'product thinking': { text: '<strong>Product Thinking cho AI</strong> là tư duy đặt người dùng làm trung tâm khi xây dựng sản phẩm AI. Thay vì hỏi "AI có thể làm gì?", product thinker hỏi <em>"User cần gì và AI giải quyết được vấn đề đó không?"</em>', confidence: 92, page: 'Tr.4–6' },
+    'responsible ai': { text: '<strong>Responsible AI</strong> bao gồm 6 nguyên tắc: Fairness · Reliability & Safety · Privacy & Security · Inclusiveness · Transparency · Accountability. Mỗi nguyên tắc tích hợp từ giai đoạn thiết kế.', confidence: 88, page: 'Tr.8–11' },
+    'user research': { text: '<strong>User research cho AI</strong> cần khám phá <em>mental model</em> của user về AI, mức độ trust calibration và expectation về khả năng hệ thống.', confidence: 85, page: 'Tr.7,12–14' },
+    'requirements': { text: '<strong>Requirements Engineering</strong> là quy trình xác định, phân tích và tài liệu hoá yêu cầu. Với AI cần thêm: yêu cầu data, accuracy, explainability.', confidence: 90, page: 'Tr.15–20' },
+    'prd': { text: '<strong>PRD cho AI</strong> có thêm: AI behavior specification, fallback behavior, confidence thresholds, human-in-the-loop triggers.', confidence: 87, page: 'Tr.21–28' },
+    'user stor': { text: '<strong>User stories cho AI:</strong> <em>"As a [user], I want [AI to do X] so that [outcome], AND I trust it because [explainability]."</em>', confidence: 83, page: 'Tr.29–33' },
+    'risk': { text: '<strong>Risk Register</strong>: danh sách rủi ro với mức độ ảnh hưởng + xác suất. <strong>Go/No-Go</strong>: quyết định triển khai dựa trên tiêu chí đã thống nhất.', confidence: 87, page: 'Tr.34–40' },
+    'lab': { text: '<strong>Lab 5:</strong> Build 1 PRD cho AI feature gồm problem statement, user personas, requirements matrix, risk assessment. Deliverable nộp cuối buổi.', confidence: 93, page: 'Tr.41–44' }
+  };
+
+  function buildQAResponse(q) {
+    const ql = q.toLowerCase();
+    for (const key in qaBank) {
+      if (ql.includes(key)) return { type: 'QA', ...qaBank[key] };
+    }
+    return { type: 'NOT_FOUND', message: `Câu hỏi của bạn về <em>"${q}"</em> không nằm trong nội dung slide hiện tại. Bạn có muốn tôi tìm kiếm thông tin bên ngoài không? Thử nhập lại với từ khoá cụ thể hơn nhé.` };
+  }
+
+  function toggleDay(header) {
+    const files = header.nextElementSibling;
+    const chevron = header.querySelector('.day-chevron');
+    files.classList.toggle('open');
+    chevron.classList.toggle('open');
+    header.classList.toggle('active');
+  }
+
+  function selectFile(el) {
+    document.querySelectorAll('.file-item').forEach(f => {
+      f.classList.remove('active');
+      f.querySelector('.file-icon').classList.remove('active');
+    });
+    el.classList.add('active');
+    el.querySelector('.file-icon').classList.add('active');
+  }
+
+  function updatePageInput() {
+    document.getElementById('page-input').value = currentPage;
+    document.getElementById('slide-badge').textContent = 'Trang slide: ' + currentPage;
+  }
+
+  function prevPage() {
+    if (currentPage > 1) { currentPage--; updatePageInput(); scrollToPage(currentPage); }
+  }
+
+  function nextPage() {
+    if (currentPage < totalPages) { currentPage++; updatePageInput(); scrollToPage(currentPage); }
+  }
+
+  function goToPage(val) {
+    val = parseInt(val);
+    if (val >= 1 && val <= totalPages) { currentPage = val; scrollToPage(currentPage); }
+  }
+
+  function scrollToPage(n) {
+    const el = document.getElementById('page-' + n);
+    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  function selectPage(n) {
+    currentPage = n;
+    updatePageInput();
+  }
+
+  function zoomIn() {
+    if (zoomLevel < 200) { zoomLevel = Math.min(200, zoomLevel + 10); applyZoom(); }
+  }
+
+  function zoomOut() {
+    if (zoomLevel > 50) { zoomLevel = Math.max(50, zoomLevel - 10); applyZoom(); }
+  }
+
+  function applyZoom() {
+    document.getElementById('zoom-val').textContent = zoomLevel + '%';
+    document.querySelectorAll('.slide-wrap').forEach(w => {
+      w.style.maxWidth = (600 * zoomLevel / 100) + 'px';
+    });
+  }
+
+  function setMode(mode, el) {
+    document.querySelectorAll('.toolbar-group .tb-btn').forEach(b => b.classList.remove('active'));
+    el.classList.add('active');
+  }
+
+  function toggleSource(header) {
+    const content = document.getElementById('source-content');
+    const chevron = document.getElementById('source-chevron');
+    sourceOpen = !sourceOpen;
+    content.style.display = sourceOpen ? 'flex' : 'none';
+    chevron.style.transform = sourceOpen ? 'rotate(0deg)' : 'rotate(180deg)';
+  }
+
+  function thumbFeedback(dir) {
+    const up = document.getElementById('btn-thumbup');
+    const down = document.getElementById('btn-thumbdown');
+    up.classList.remove('active-up'); down.classList.remove('active-down');
+    if (dir === 'up') up.classList.add('active-up');
+    else down.classList.add('active-down');
+  }
+
+  function askTopic(topic) {
+    document.getElementById('chat-input').value = topic;
+    sendMessage();
+  }
+
+  // ─── Render helpers ─────────────────────────────────────────
+  function renderBotMessage(htmlContent, opts = {}) {
+    const body = document.getElementById('tutor-body');
+    const div = document.createElement('div');
+    div.className = 'answer-bubble fade-in';
+    div.innerHTML = htmlContent;
+    if (opts.status !== false) {
+      const status = document.createElement('div');
+      status.className = 'answer-status';
+      status.innerHTML = '<div class="status-dot"></div><span class="status-text">ĐÃ TRẢ LỜI</span>';
+      div.appendChild(status);
+    }
+    body.appendChild(div);
+    div.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    return div;
+  }
+
+  function renderUserMessage(text) {
+    const body = document.getElementById('tutor-body');
+    const div = document.createElement('div');
+    div.className = 'chat-msg user fade-in';
+    div.textContent = text;
+    body.appendChild(div);
+    body.scrollTop = body.scrollHeight;
+  }
+
+  function renderTyping() {
+    const body = document.getElementById('tutor-body');
+    const div = document.createElement('div');
+    div.className = 'answer-bubble fade-in';
+    div.id = 'typing-indicator';
+    div.innerHTML = '<div class="typing-dots"><div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div></div>';
+    body.appendChild(div);
+    body.scrollTop = body.scrollHeight;
+  }
+
+  function removeTyping() {
+    const t = document.getElementById('typing-indicator');
+    if (t) t.remove();
+  }
+
+  function setConfidence(pct, sourceLabel, sourcePage, sourceType) {
+    const fw = document.getElementById('feedback-wrap');
+    fw.style.display = 'block';
+    document.getElementById('conf-fill').style.width = pct + '%';
+    const label = pct >= 90 ? 'Rất tin cậy' : pct >= 75 ? 'Tin cậy' : 'Trung bình';
+    document.getElementById('conf-label').textContent = pct + '% · ' + label;
+    const badge = document.getElementById('conf-badge');
+    badge.style.display = 'inline';
+    badge.textContent = '● ĐÃ TRẢ LỜI';
+    badge.style.color = '#0e9f6e';
+    badge.style.background = '#def7ec';
+
+    if (sourceLabel) {
+      document.getElementById('source-box').style.display = 'block';
+      document.getElementById('source-text').textContent = sourceLabel;
+      document.getElementById('source-page').textContent = sourcePage || '';
+      document.getElementById('source-count').textContent = sourceType === 'external' ? '🌐 Nguồn bên ngoài' : '📄 Slide Day05';
+    }
+    document.getElementById('btn-thumbup').classList.remove('active-up');
+    document.getElementById('btn-thumbdown').classList.remove('active-down');
+  }
+
+  // ─── Case 1: List topics ─────────────────────────────────────
+  function renderListTopics() {
+    let html = '<p style="margin-bottom:10px;">Đây là <strong>các đầu mục chính</strong> trong bài giảng Day05. Nhấn vào chủ đề để nhảy đến slide tương ứng:</p>';
+    html += '<div class="topic-jump-list">';
+    slideTopics.forEach(t => {
+      html += `<div class="topic-jump-item" onclick="jumpToSlide(${t.page},'${t.label}')">
+        <div class="topic-jump-num">${t.num}</div>
+        <div class="topic-jump-label">${t.label}</div>
+        <div class="topic-jump-page">Tr.${t.pages}</div>
+        <div class="topic-jump-arrow">→</div>
+      </div>`;
+    });
+    html += '</div>';
+    renderBotMessage(html);
+    setConfidence(98, 'Slide Day05 — Mục lục', 'Tr.1–44', 'slide');
+  }
+
+  function jumpToSlide(page, label) {
+    currentPage = page;
+    updatePageInput();
+    const el = document.getElementById('page-' + page);
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    } else {
+      // Page not rendered, just update indicator
+      showToast('Đã điều hướng đến trang ' + page + ' — "' + label + '"');
+    }
+  }
+
+  function showToast(msg) {
+    let t = document.getElementById('toast');
+    if (!t) {
+      t = document.createElement('div');
+      t.id = 'toast';
+      Object.assign(t.style, {
+        position:'fixed', bottom:'24px', left:'50%', transform:'translateX(-50%)',
+        background:'#1a56db', color:'white', padding:'8px 18px',
+        borderRadius:'20px', fontSize:'12px', fontWeight:'600',
+        zIndex:'9999', boxShadow:'0 4px 12px rgba(0,0,0,.2)',
+        opacity:'0', transition:'opacity .3s'
+      });
+      document.body.appendChild(t);
+    }
+    t.textContent = msg;
+    t.style.opacity = '1';
+    clearTimeout(t._timer);
+    t._timer = setTimeout(() => { t.style.opacity = '0'; }, 2500);
+  }
+
+  // ─── Case 2: Summarize pages ─────────────────────────────────
+  function renderSummarize(pages) {
+    const rangeLabel = pages.length > 1
+      ? `Trang ${pages[0].page}–${pages[pages.length-1].page}`
+      : `Trang ${pages[0].page}`;
+
+    let html = `<p style="margin-bottom:8px;">📋 Tóm tắt nội dung <strong>${rangeLabel}</strong>:</p>`;
+    pages.forEach(p => {
+      html += `<div class="summary-block">
+        <div class="summary-title">📄 Trang ${p.page} · ${p.title}</div>
+        <p>${p.summary}</p>
+      </div>`;
+    });
+    renderBotMessage(html);
+    const firstPage = pages[0].page;
+    setConfidence(90, `Slide Day05 — ${rangeLabel}`, `Tr.${firstPage}`, 'slide');
+
+    // Also scroll viewer to first page
+    const el = document.getElementById('page-' + firstPage);
+    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    currentPage = firstPage;
+    updatePageInput();
+  }
+
+  // ─── Case 3: External search ──────────────────────────────────
+  function renderExternal(entry) {
+    const sourceChips = entry.sources.map(s =>
+      `<span class="ext-source-chip">${s}</span>`
+    ).join('');
+
+    let html = `
+      <div style="margin-bottom:8px;font-size:11px;color:#6b7280;">🔍 Không tìm thấy trong slide Day05 — tìm kiếm từ nguồn bên ngoài...</div>
+      <div class="ext-search-block">
+        <div class="ext-title">🌐 ${entry.title}</div>
+        <p>${entry.content}</p>
+        <div class="ext-source-chips">${sourceChips}</div>
+      </div>`;
+    renderBotMessage(html);
+    setConfidence(78, entry.title, 'Web', 'external');
+  }
+
+  // ─── Not found ────────────────────────────────────────────────
+  function renderNotFound(msg) {
+    let html = `<div class="notfound-block">
+      <div class="notfound-title">⚠️ Không tìm thấy</div>
+      <p>${msg}</p>
+    </div>`;
+    renderBotMessage(html, { status: false });
+    setConfidence(50, null, null, null);
+  }
+
+  // ─── Main send flow ───────────────────────────────────────────
+  function handleKey(e) {
+    if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); }
+  }
+
+  function sendMessage() {
+    const input = document.getElementById('chat-input');
+    const msg = input.value.trim();
+    if (!msg || isTyping) return;
+    input.value = '';
+    isTyping = true;
+
+    renderUserMessage(msg);
+    renderTyping();
+
+    // Mark confidence as processing
+    const badge = document.getElementById('conf-badge');
+    badge.style.display = 'inline';
+    badge.textContent = '○ ĐANG XỬ LÝ...';
+    badge.style.color = '#f59e0b';
+    badge.style.background = '#fffbeb';
+    document.getElementById('feedback-wrap').style.display = 'block';
+    document.getElementById('conf-fill').style.width = '0%';
+    document.getElementById('conf-label').textContent = '–';
+
+    const delay = 1000 + Math.random() * 600;
+    setTimeout(() => {
+      removeTyping();
+      const intent = classifyIntent(msg);
+
+      if (intent === 'LIST_TOPICS') {
+        renderListTopics();
+      } else if (intent && intent.type === 'SUMMARIZE') {
+        const resp = buildSummarizeResponse(intent.from, intent.to);
+        if (resp.type === 'SUMMARIZE') renderSummarize(resp.pages);
+        else renderNotFound(resp.message);
+      } else if (intent && intent.type === 'EXTERNAL') {
+        renderExternal(intent.entry);
+      } else {
+        const resp = buildQAResponse(msg);
+        if (resp.type === 'QA') {
+          renderBotMessage(`<p>${resp.text}</p>`);
+          setConfidence(resp.confidence, 'Slide Day05', resp.page, 'slide');
+        } else {
+          renderNotFound(resp.message);
+        }
+      }
+
+      isTyping = false;
+      document.getElementById('tutor-body').scrollTop = 99999;
+    }, delay);
+  }
+
+  function clearChat() {
+    document.getElementById('tutor-body').innerHTML = '';
+    document.getElementById('source-box').style.display = 'none';
+    document.getElementById('feedback-wrap').style.display = 'none';
+    initWelcome();
+  }
+
+  function toggleSource() {
+    const content = document.getElementById('source-content');
+    const chevron = document.getElementById('source-chevron');
+    sourceOpen = !sourceOpen;
+    content.style.display = sourceOpen ? 'flex' : 'none';
+    chevron.style.transform = sourceOpen ? 'rotate(0deg)' : 'rotate(180deg)';
+  }
+
+  function thumbFeedback(dir) {
+    const up = document.getElementById('btn-thumbup');
+    const down = document.getElementById('btn-thumbdown');
+    up.classList.remove('active-up'); down.classList.remove('active-down');
+    if (dir === 'up') { up.classList.add('active-up'); showToast('Cảm ơn phản hồi của bạn! 👍'); }
+    else { down.classList.add('active-down'); showToast('Cảm ơn! Chúng tôi sẽ cải thiện. 🙏'); }
+  }
+
+  // ─── Welcome message ──────────────────────────────────────────
+  function initWelcome() {
+    const body = document.getElementById('tutor-body');
+    const welcome = document.createElement('div');
+    welcome.className = 'welcome-bubble fade-in';
+    welcome.innerHTML = `
+      <div class="bot-name">
+        <div class="bot-dot"></div>
+        VLearn Tutor
+      </div>
+      <p>Chào bạn! Tôi là <strong>trợ lý học tập VLearn Tutor</strong>. Hãy hỏi tôi nếu bạn cần hỗ trợ nhé 😊</p>
+      <p style="margin-top:6px;color:#6b7280;font-size:11px;">Tôi có thể giúp bạn:</p>
+      <div class="quick-chips">
+        <button class="chip" onclick="askTopic('List nội dung học')">📋 List nội dung học</button>
+        <button class="chip" onclick="askTopic('Tóm tắt trang 2')">📄 Tóm tắt trang 2</button>
+        <button class="chip" onclick="askTopic('RAG là gì?')">🌐 Tìm thông tin ngoài</button>
+        <button class="chip" onclick="askTopic('Tóm tắt trang 1 đến trang 3')">📑 Tóm tắt nhiều trang</button>
+      </div>`;
+    body.appendChild(welcome);
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    initWelcome();
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          const n = parseInt(e.target.id.replace('page-', ''));
+          if (!isNaN(n)) { currentPage = n; updatePageInput(); }
+        }
+      });
+    }, { threshold: 0.5 });
+    document.querySelectorAll('.slide-wrap').forEach(w => observer.observe(w));
+    setTimeout(() => scrollToPage(2), 300);
+  });
+</script>
+</body>
+</html>
