@@ -1792,49 +1792,60 @@
       return await response.json();
     }
 
+    async function processChat(text) {
+      if (!groqApiKey) {
+        groqApiKey = prompt("Môi trường Demo: Vui lòng nhập GROQ API KEY của bạn để tiếp tục.");
+        if (!groqApiKey) return;
+      }
+
+      renderUserMessage(text);
+      const inputEl = document.getElementById('chat-input');
+      if (inputEl) inputEl.value = '';
+      
+      chatHistory.push({ role: "user", content: text });
+      showTyping();
+
+      try {
+        const res = await callGroqAPI(chatHistory, vlearnTools);
+        const aiMsg = res.choices[0].message;
+
+        if (aiMsg.tool_calls && aiMsg.tool_calls.length > 0) {
+          chatHistory.push(aiMsg);
+          const toolId = aiMsg.tool_calls[0].id;
+
+          // Run Tool
+          const toolResult = "Nội dung trang " + currentPage + ": " + (pageTexts[currentPage] || "Không có text.");
+          chatHistory.push({ role: "tool", tool_call_id: toolId, name: "get_current_slide_content", content: toolResult });
+
+          // Turn 2
+          const res2 = await callGroqAPI(chatHistory, null);
+          const finalMsg = res2.choices[0].message.content;
+          chatHistory.push({ role: "assistant", content: finalMsg });
+          hideTyping();
+          renderBotMessage(finalMsg, true, currentPage);
+        } else {
+          chatHistory.push({ role: "assistant", content: aiMsg.content });
+          hideTyping();
+          renderBotMessage(aiMsg.content, false);
+        }
+      } catch (err) {
+        hideTyping();
+        renderBotMessage("Lỗi kết nối API: " + err.message);
+      }
+    }
+
     async function handleChatInput(e) {
       if (e.key === 'Enter') {
-        const inputEl = e.target;
+        const text = e.target.value.trim();
+        if (text) await processChat(text);
+      }
+    }
+
+    function sendMessage() {
+      const inputEl = document.getElementById('chat-input');
+      if (inputEl) {
         const text = inputEl.value.trim();
-        if (!text) return;
-
-        if (!groqApiKey) {
-          groqApiKey = prompt("Môi trường Demo: Vui lòng nhập GROQ API KEY của bạn để tiếp tục.");
-          if (!groqApiKey) return;
-        }
-
-        renderUserMessage(text);
-        inputEl.value = '';
-        chatHistory.push({ role: "user", content: text });
-        showTyping();
-
-        try {
-          const res = await callGroqAPI(chatHistory, vlearnTools);
-          const aiMsg = res.choices[0].message;
-
-          if (aiMsg.tool_calls && aiMsg.tool_calls.length > 0) {
-            chatHistory.push(aiMsg);
-            const toolId = aiMsg.tool_calls[0].id;
-
-            // Run Tool
-            const toolResult = "Nội dung trang " + currentPage + ": " + (pageTexts[currentPage] || "Không có text.");
-            chatHistory.push({ role: "tool", tool_call_id: toolId, name: "get_current_slide_content", content: toolResult });
-
-            // Turn 2
-            const res2 = await callGroqAPI(chatHistory, null);
-            const finalMsg = res2.choices[0].message.content;
-            chatHistory.push({ role: "assistant", content: finalMsg });
-            hideTyping();
-            renderBotMessage(finalMsg, true, currentPage);
-          } else {
-            chatHistory.push({ role: "assistant", content: aiMsg.content });
-            hideTyping();
-            renderBotMessage(aiMsg.content, false);
-          }
-        } catch (err) {
-          hideTyping();
-          renderBotMessage("Lỗi kết nối API: " + err.message);
-        }
+        if (text) processChat(text);
       }
     }
 
