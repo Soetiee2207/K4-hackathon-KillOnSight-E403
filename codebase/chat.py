@@ -8,6 +8,7 @@ from pathlib import Path
 from typing import Any
 
 from env_loader import load_lab_env
+from guardrails import apply_input_guardrails, apply_output_guardrails, apply_tool_guardrails
 from providers import make_provider
 from providers.base import ToolCall
 from tools import TOOL_FUNCTIONS, load_tool_declarations, to_openai_tools
@@ -42,6 +43,14 @@ def trim_history(history: list[dict[str, str]], window: int) -> list[dict[str, s
 
 
 def execute_tool_call(call: ToolCall) -> dict[str, Any]:
+    guardrail_decision = apply_tool_guardrails(call.name, call.args)
+    if not guardrail_decision.allowed:
+        return {
+            "tool": call.name,
+            "args": call.args,
+            "result": {"blocked": True, "message": guardrail_decision.safe_message},
+        }
+
     func = TOOL_FUNCTIONS.get(call.name)
     if not func:
         return {
@@ -89,12 +98,28 @@ def run_model_tool_loop(
     rounds: list[dict[str, Any]] = []
     all_tool_events: list[dict[str, Any]] = []
 
+    last_user_message = ""
+    for message in reversed(working_messages):
+        if message.get("role") == "user":
+            last_user_message = str(message.get("content", ""))
+            break
+
+    guardrail_decision = apply_input_guardrails(last_user_message)
+    if not guardrail_decision.allowed:
+        return {
+            "status": "guardrail_blocked",
+            "assistant_text": guardrail_decision.safe_message or "Mình không thể tiếp tục với yêu cầu này.",
+            "rounds": rounds,
+            "tool_events": all_tool_events,
+        }
+
     for round_index in range(1, max_tool_rounds + 1):
         response = provider.complete(working_messages, tools, model=model, temperature=0.0)
+        assistant_text = apply_output_guardrails(response.text) or ""
         calls = response.tool_calls
         round_record: dict[str, Any] = {
             "round": round_index,
-            "assistant_text": response.text,
+            "assistant_text": assistant_text,
             "tool_calls": [{"name": call.name, "args": call.args} for call in calls],
             "tool_results": [],
         }
@@ -103,12 +128,12 @@ def run_model_tool_loop(
             rounds.append(round_record)
             return {
                 "status": "answered",
-                "assistant_text": response.text or "",
+                "assistant_text": assistant_text,
                 "rounds": rounds,
                 "tool_events": all_tool_events,
             }
 
-        working_messages.append(assistant_tool_message(response.text, calls))
+        working_messages.append(assistant_tool_message(assistant_text, calls))
         non_clarification_events: list[dict[str, Any]] = []
 
         for call in calls:
