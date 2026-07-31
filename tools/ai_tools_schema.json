@@ -1,0 +1,69 @@
+[
+  {
+    "type": "function",
+    "function": {
+      "name": "get_current_slide_content",
+      "description": "Lấy nội dung văn bản (text) của trang slide mà học viên đang xem trên màn hình. GỌI TOOL NÀY BẤT CỨ KHI NÀO người dùng yêu cầu tóm tắt, giải thích, hoặc đặt câu hỏi có chứa các đại từ chỉ định như 'trang này', 'slide này', 'đoạn này', 'ở đây'. Đừng cố đoán nội dung nếu bạn chưa gọi tool này để biết học viên đang nhìn gì.",
+      "parameters": {
+        "type": "object",
+        "properties": {},
+        "required": []
+      }
+    }
+  },
+  {
+    "type": "function",
+    "function": {
+      "name": "search_course_materials",
+      "description": "Tìm kiếm kiến thức trong toàn bộ tài liệu (slide cũ, bài đọc thêm, transcript) của khoá học VLearn. GỌI TOOL NÀY KHI câu hỏi của học viên chứa một thuật ngữ hoặc khái niệm không có sẵn trong ngữ cảnh hiện tại, cần lục lại bài cũ để giải thích chính xác.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "query": {
+            "type": "string",
+            "description": "Từ khoá cốt lõi hoặc câu hỏi ngắn gọn cần tìm kiếm. Ví dụ: 'Responsible AI là gì?' hoặc 'JTBD Framework'"
+          }
+        },
+        "required": ["query"]
+      }
+    }
+  },
+  {
+    "type": "function",
+    "function": {
+      "name": "analyze_slide_image",
+      "description": "Phân tích hình ảnh, biểu đồ, sơ đồ tư duy trên trang slide. GỌI TOOL NÀY KHI người dùng yêu cầu giải thích một thứ mang tính trực quan như 'giải thích biểu đồ này', 'sơ đồ này có ý nghĩa gì', hoặc khi text thuần tuý không đủ để giải thích.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "page_number": {
+            "type": "integer",
+            "description": "Số thứ tự của trang slide cần phân tích hình ảnh. Nếu người dùng ám chỉ 'trang này', hãy truyền vào số trang hiện tại của họ."
+          }
+        },
+        "required": ["page_number"]
+      }
+    }
+  },
+  {
+    "type": "function",
+    "function": {
+      "name": "save_concept_to_flashcard",
+      "description": "Lưu lại một khái niệm và lời giải thích ngắn gọn vào sổ tay Flashcard cá nhân của học viên để họ ôn tập sau. GỌI TOOL NÀY KHI người dùng ra lệnh như 'lưu lại cái này giúp tôi', 'tạo flashcard cho khái niệm này', 'note lại để mai học'.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "concept_name": {
+            "type": "string",
+            "description": "Tên của khái niệm, thuật ngữ cần lưu. Ví dụ: 'Context Injection'"
+          },
+          "explanation": {
+            "type": "string",
+            "description": "Lời giải thích ngắn gọn, súc tích, dễ hiểu về khái niệm đó (dưới 50 từ)."
+          }
+        },
+        "required": ["concept_name", "explanation"]
+      }
+    }
+  }
+]
