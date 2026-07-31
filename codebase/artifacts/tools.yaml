@@ -1,0 +1,50 @@
+tools:
+  - name: clarify
+    description: "Gửi câu hỏi để yêu cầu học viên làm rõ thông tin hoặc xin xác nhận trước các hành động nhạy cảm."
+    parameters:
+      type: object
+      properties:
+        question: {type: string, description: "Câu hỏi gửi cho học viên"}
+        response_type: {type: string, enum: [text, yes_no, choice], default: "text", description: "Loại câu trả lời"}
+        options: {type: array, default: [], items: {type: string}, description: "Các tùy chọn nếu là lựa chọn"}
+      required: [question]
+
+  - name: list_topics
+    description: "Liệt kê các đầu mục chủ đề chính của slide, tài liệu học tập và quy định hackathon."
+    parameters:
+      type: object
+      properties: {}
+
+  - name: summarize_pages
+    description: "Tóm tắt các slide bài giảng theo khoảng trang từ from_page đến to_page."
+    parameters:
+      type: object
+      properties:
+        from_page: {type: integer, description: "Trang slide bắt đầu"}
+        to_page: {type: integer, description: "Trang slide kết thúc"}
+      required: [from_page]
+
+  - name: summary_pages
+    description: "Tóm tắt các slide bài giảng theo khoảng trang từ from_page đến to_page (bí danh tương đương của summarize_pages)."
+    parameters:
+      type: object
+      properties:
+        from_page: {type: integer, description: "Trang slide bắt đầu"}
+        to_page: {type: integer, description: "Trang slide kết thúc"}
+      required: [from_page]
+
+  - name: search_materials
+    description: "Tìm kiếm thông tin nâng cao và trả lời thắc mắc của học viên dựa trên slide bài học, transcript bài giảng và quy chế hackathon (RAG)."
+    parameters:
+      type: object
+      properties:
+        query: {type: string, description: "Từ khóa hoặc câu hỏi cần tra cứu"}
+      required: [query]
+
+  - name: direct_to_btc
+    description: "Từ chối trả lời và hướng dẫn học viên liên hệ BTC hoặc kênh Discord chính thức khi học viên hỏi về logistics (như deadline, hạn nộp bài, link nộp bài, ban tổ chức)."
+    parameters:
+      type: object
+      properties:
+        reason: {type: string, description: "Lý do từ chối (ví dụ: 'deadline', 'link nộp bài')"}
+      required: [reason]

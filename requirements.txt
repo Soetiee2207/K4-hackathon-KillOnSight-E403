@@ -1,0 +1,10 @@
+google-genai
+openai
+anthropic
+python-dotenv
+requests
+streamlit
+groq
+pypdf
+pyyaml
+pymupdf

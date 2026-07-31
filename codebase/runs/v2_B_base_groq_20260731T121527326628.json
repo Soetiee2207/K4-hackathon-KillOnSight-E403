@@ -1,0 +1,822 @@
+{
+  "run_id": "v2_B_base_groq_20260731T121527326628",
+  "version": "v2",
+  "artifact_version": "v2+pf3d831c7fb89+te65b72fb19a6",
+  "prompt_hash": "f3d831c7fb8992dd79f2d08daf1e3eb477dddffdace6863b2db6e6ca0eb05b92",
+  "tools_hash": "e65b72fb19a6fafefb3a7dc022b001ac0072464a219c6f33b0b1a917a2879f59",
+  "phase": "B",
+  "suite": "base",
+  "provider": "groq",
+  "model": "llama-3.1-8b-instant",
+  "system_prompt": "D:\\vinUni\\K4-hackathon-KillOnSight-E403\\codebase\\artifacts\\system_prompt.md",
+  "tools": "D:\\vinUni\\K4-hackathon-KillOnSight-E403\\codebase\\artifacts\\tools.yaml",
+  "eval_cases": "D:\\vinUni\\K4-hackathon-KillOnSight-E403\\codebase\\data\\golden_set.json",
+  "dataset_id": "golden_set",
+  "dataset_role": "eval",
+  "description": "Tutor Agent evaluation cases",
+  "generated_at": "2026-07-31T12:15:27",
+  "summary": {
+    "total_cases": 20,
+    "measured_cases": 20,
+    "provider_error_cases": 0,
+    "passed_cases": 16,
+    "case_accuracy": 0.8,
+    "tool_routing_accuracy": 0.9,
+    "argument_accuracy": 0.8,
+    "multiturn_accuracy": null,
+    "failure_counts": {
+      "wrong_tool": 3,
+      "wrong_boundary": 1
+    },
+    "observed_mismatch_counts": {
+      "missing_tool_call": 2,
+      "wrong_arg_value": 2
+    }
+  },
+  "results": [
+    {
+      "id": 1,
+      "phase": "B",
+      "suite": "base",
+      "case_suite": "base",
+      "is_multiturn": false,
+      "metadata": {},
+      "input": "Tóm tắt giúp tôi nội dung của slide về 3 Hướng làm sản phẩm.",
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "search_materials",
+            "args": {
+              "query": "3 Hướng làm sản phẩm"
+            }
+          }
+        ]
+      },
+      "result": {
+        "passed": false,
+        "routing_correct": false,
+        "args_correct": false,
+        "actual_tool_calls": [
+          {
+            "name": "summary_pages",
+            "args": {
+              "from_page": 1,
+              "to_page": 3
+            }
+          }
+        ],
+        "actual_text": null,
+        "case_failure_type": "wrong_tool",
+        "observed_mismatch": "missing_tool_call",
+        "failure_type": "wrong_tool",
+        "failures": [
+          "missing tool call search_materials",
+          "extra tool call summary_pages"
+        ]
+      },
+      "tool_results": [
+        {
+          "tool": "summary_pages",
+          "args": {
+            "from_page": 1,
+            "to_page": 3
+          },
+          "result": {
+            "tool": "summarize_pages",
+            "pages": [
+              {
+                "source": "Slide:Day1:Page1",
+                "content": "AI IN ACTION  Day 1\nAI & LLM Foundation\nBạn đang dùng AI mỗi ngày — nhưng thực sự bên trong nó đang làm gì?\nAI IN ACTION - HACKATHON"
+              },
+              {
+                "source": "Slide:Day1:Page2",
+                "content": "AI IN ACTION  Day 1\nAgenda\n• Bức tranh AI & các tầng của AI\n• Lịch sử AI 70 năm\n• Bên trong LLM: cơ chế vận hành\n• Từ LLM đến AI Agent\n• Landscape: model hôm nay & cuộc đua hiện tại\n• Chọn model & chi phí token\n• Gọi API lần đầu\n• Tổng kết — những ý để mang về\nAI & LLM Foundation\nTừ \"nghe AI\" đến \"gọi AI\" trong một ngày\nAI IN ACTION - HACKATHON"
+              },
+              {
+                "source": "Slide:Day1:Page3",
+                "content": "AI, ML, Deep Learning, GenAI, LLM — nằm ở đâu trong cùng một hệ?\nAI — chiếc ô lớn nhất: mọi hệ thống có yếu tố\n“thông minhˮ.\nMachine learning — học từ dữ liệu thay vì viết\nluật tay.\nDeep learning — mạng nơ-ron nhiều tầng tự học\nđặc trưng.\nGenerative AI — sinh nội dung mới: văn bản,\nảnh, code.\nLLM — model nền chuyên ngôn ngữ, tim của làn\nsóng hiện nay.\nARTIFICIAL INTELLIGENCE\nMACHINE LEARNING\nDEEP LEARNING\nGENERATIVE AI\nLLM\nGPT · Claude · Kimi\nkể cả hệ luật tay, robot…\nlọc spam · gợi ý phim\nnhận diện ảnh · giọng nói\nvăn bản · ảnh · code\ntừ rộng đến hẹp\nLLM không phải toàn bộ AI — nhưng nó là tầng\nnền của gần hết trải nghiệm AI bạn dùng hôm nay\nAI IN ACTION - HACKATHON"
+              },
+              {
+                "source": "Slide:Day2:Page1",
+                "content": "AI IN ACTION · DAY 02\nXác định bài toán cho AI.\nTừ yêu cầu mơ hồ đến Problem Statement rõ ràng.\nAI IN ACTION - HACKATHON"
+              },
+              {
+                "source": "Slide:Day2:Page2",
+                "content": "SÁNG\nKHUNG LÝ THUYẾT 4H\n· Problem Discovery Double Diamond, HCD\n· Problem Statement & định lượng hóa\n· PAIR ① AI có thêm giá trị?\n· PAIR ② Automate/Augment →\nRule/Workflow/Agent\n· PAIR ③ Reward function & success criteria\n· Khi AI sai & UX/HITL\n· PS hoàn chỉnh → Go/Not Yet/No-Go\nCHIỀU\nTHỰC HÀNH LAB 4H\n· Cá nhân: Tìm 5 bài toán & điền 3 Problem\nCards\n· Nhóm: Phản biện chéo, chốt 1 bài toán\n· Nhóm: Xác thực dữ liệu & vẽ quy trình\n· Nhóm: Xác định giải pháp & ra quyết định\n· Cá nhân: Viết nhật ký phản tư Reflection Log)\nBÀI NỘP\nCUỐI BUỔI\n· Nhật ký tìm và lọc bài toán Cá nhân)\n· Problem Statement hoàn chỉnh Nhóm\n· Nhật ký phản tư Cá nhân)\nAgenda\n— Mục tiêu: Biến yêu cầu mơ hồ thành Problem Statement rõ ràng để ra quyết định\nMỞ ĐẦU · AGENDA DAY 02 · 04 / 83\nAI IN ACTION - HACKATHON"
+              },
+              {
+                "source": "Slide:Day2:Page3",
+                "content": "DIAMOND 1 — TÌM ĐÚNG VẤN ĐỀ\nDiscover: Mở rộng — khảo sát vấn đề căn bản.\nDefine: Thu hẹp — xác định đúng bài toán gốc.\nDIAMOND 2 — TÌM ĐÚNG GIẢI PHÁP\nDevelop: Mở rộng — nhiều giải pháp tiềm năng.\nDeliver: Thu hẹp — chọn và triển khai.\n\"Kỹ sư và doanh nhân được đào tạo để giải vấn đề. Nhà thiết kế được đào\ntạo để khám phá vấn đề thật.\"\nGiải pháp xuất sắc cho sai vấn đề có thể còn tệ hơn không có giải pháp.\nTìm đúng vấn đề trước khi tìm giải pháp\n— Mô hình Double Diamond — Don Norman / British Design Council 2005\nNGUỒN  Don Norman — jnd.org · Design Council — The Double Diamond\nBÀI TOÁN · DOUBLE DIAMOND DAY 02 · 16 / 83\nAI IN ACTION - HACKATHON"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "phase": "B",
+      "suite": "base",
+      "case_suite": "base",
+      "is_multiturn": false,
+      "metadata": {},
+      "input": "Đoạn văn này đang định nghĩa tính năng VLearn hiện tại là gì?",
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "search_materials",
+            "args": {
+              "query": "định nghĩa tính năng VLearn hiện tại"
+            }
+          }
+        ]
+      },
+      "result": {
+        "passed": false,
+        "routing_correct": true,
+        "args_correct": false,
+        "actual_tool_calls": [
+          {
+            "name": "search_materials",
+            "args": {
+              "query": "định nghĩa tính năng VLearn hiện tại là gì"
+            }
+          }
+        ],
+        "actual_text": null,
+        "case_failure_type": "wrong_tool",
+        "observed_mismatch": "wrong_arg_value",
+        "failure_type": "wrong_tool",
+        "failures": [
+          "query: expected 'định nghĩa tính năng VLearn hiện tại', got 'định nghĩa tính năng VLearn hiện tại là gì'"
+        ]
+      },
+      "tool_results": [
+        {
+          "tool": "search_materials",
+          "args": {
+            "query": "định nghĩa tính năng VLearn hiện tại là gì"
+          },
+          "result": {
+            "tool": "search_materials",
+            "query": "định nghĩa tính năng VLearn hiện tại là gì",
+            "result": "### Nguon tu [Doc:02-guide.md:2.6 Định nghĩa \"tốt\" + golden set + quality bar *(phải xong lượt đo đầu tại CP3)*]:\n\n1. **Bắt đầu từ output thật, không từ tiêu chí trừu tượng.** Chạy tay 10-20 input qua prototype (hoặc ChatGPT/Claude với prompt nháp), đọc từng output, ghi thô: dùng được / sửa được / không chấp nhận được. Tiêu chí tốt được *chưng cất từ lỗi đã thấy*. *(Hamel Husain — \"Your AI Product Needs Evals\": \"look at your data\" là bước một; Anthropic docs — \"Create strong empirical evaluations\".)*\n2. **Đặt tên cho lỗi.** Gom output tệ thành nhóm lỗi có tên (bịa nguồn / lạc trình độ / cite sai trang / đoán khi thiếu thông tin / vượt thẩm quyền...), đối chiếu 4 lớp để không sót. Mỗi lỗi: trigger → biểu hiện → hậu quả. *(HAX Playbook; Aman Khan — \"Beyond vibe checks\", Lenny's Newsletter.)*\n3. **Biến mỗi chiều chất lượng thành định nghĩa kiểm chứng được.** \"Trả lời tốt\" không đo được. Tách chiều (đúng-có-căn-cứ / đúng cỡ-đúng giọng / an toàn), mỗi chiều: pass/fail (\"mọi thông tin trace được về transcript\") hoặc thang có mô tả mức (1 = sai kiến thức; 3 = đúng nhưng dài gấp đôi cần; 5 = đúng, đúng cỡ, có trích dẫn). *(HAX G2.)*\n4. **Test độ rõ bằng người thứ hai.** Hai thành viên chấm độc lập cùng 5 output → so. Lệch = định nghĩa mơ hồ → viết lại. Trong nhóm còn chấm khác nhau thì không dùng chấm được ai.\n5. **Golden set ≥20 case nhóm tự xây**: ≥2 case cho mỗi lớp chỗ khó + 8-10 case thường + 2-4 case hiếm; trong đó **≥10 case lấy hoặc phát triển từ chatlog thật** (nhóm dùng promptfoo nên mở rộng lên 30+). Lưu file trong `eval/` và **chốt quality bar trước khi đo**: \"Đạt khi ≥ __% qua bộ, và [điều kiện cứng]\" — chốt tại spec.md 23:59 và giữ nguyên sau đó. Không đạt quality bar nhưng phân tích được nguyên nhân vẫn được tính đủ điểm; số liệu bị chỉnh sửa sẽ không được tính. *(Bài giảng Ship/Limited/Hold.)*\n\n### Nguon tu [Transcript:T01:Kỹ năng xác định bài toán từ yêu cầu mơ hồ]:\n\n**[T01-001]** Một trong những kỹ năng mình nghĩ quan trọng và đang cần nhất — đặc biệt ở các công ty muốn đưa AI vào ứng dụng — là khả năng xác định ra một bài toán từ một yêu cầu rất mơ hồ, hoặc khi các bạn tham gia vào một doanh nghiệp thì tìm được bài toán đáng để làm, sau đấy bóc tách nó ra cho team development phát triển. Theo quan sát của mình, đấy là một trong những vị trí đang rất thiếu.\n\n**[T01-002]** Trong khoảng hai năm trở lại đây, sau làn sóng AI, các công ty có áp lực phải đưa AI vào tổ chức của mình. Ở Việt Nam mình quan sát thấy có một làn sóng đầu tiên là các công ty tuyển rất nhiều AI engineer, khoảng 2024 và 2025. Họ đặt ra một câu hỏi \"bây giờ tôi muốn AI cho doanh nghiệp\", và việc đầu tiên là họ tuyển — mình thấy rất nhiều tin tuyển dụng như vậy. Nhưng cuối cùng câu chuyện là ông AI engineer đấy chỉ giải được cái bài mà đã có người đưa sẵn một đề bài cụ thể. Vấn đề ở đây là cái người đặt ra đề bài đấy thì lại không có. Không có ai chỉ ra được là trong 7749 cái việc tôi phải làm mỗi ngày, cái gì tôi nên đưa vào làm trước, cái gì tôi nên làm để tạo ra được thành quả ngay đầu tiên. Sau đấy thì nhiều công ty thấy là không hiệu quả và mất niềm tin về cách làm việc đấy.\n\n**[T01-003]** Thực tế có những nghiên cứu, những thống kê trên thế giới nói rằng việc đưa AI vào ứng dụng, đặc biệt trong doanh nghiệp, thì 70% của nó đến từ con người và vận hành chứ không phải đến từ công nghệ. Không phải là chúng ta nhìn thấy AI có thể làm được mọi thứ, lúc nào cũng AI first — nhưng cuối cùng AI để giải cái gì?\n\n**[T01-004]** Góc nhìn của mình từ trước đến giờ với công nghệ rất đơn giản: mình luôn nghĩ công nghệ sinh ra để giải quyết một vấn đề gì đấy. Đầu tiên mình phải biết vấn đề là gì, sau đấy công nghệ mới là công cụ để giải nó. Bây giờ có rất nhiều công nghệ khác nhau có thể giải một vấn đề nào đấy, cho nên bước đầu tiên chúng ta phải xác định được đúng vấn đề — cái đấy quan trọng hơn nhiều. Nhiều khi con người có một cái quán tính là nhảy thẳng vào giải phá\n\n### Nguon tu [Transcript:T04:Benchmark năng lực và xu hướng chi phí tính toán]:\n\n**[T04-081]** Đây là một bài test năng lực — một benchmark về software engineering. Các mô hình, đặc biệt là mô hình liên quan đến coding, thường luôn được đo trên bài test này: một bộ đo xem mô hình giải được bao nhiêu bug trong tập bug đã có. Mọi người có thể thấy từ 2024 đến bây giờ là 2 năm: lúc 2024, mô hình mạnh nhất là Claude Sonnet 3.5 chỉ đạt được khoảng 33% thôi, mà đến bây giờ đã đạt trên 80% rồi. Tất nhiên con đường đấy bắt đầu chững lại, sẽ không tăng đột biến nữa — đây là mô hình rất phổ biến: các chỉ số năng lực luôn tăng nhanh lúc đầu và dần đi chậm hơn ở bước sau. Cũng có ý kiến cho rằng đến thời điểm đạt những ngưỡng điểm số rất cao này rồi, thì năng lực lõi của mô hình — những kiến thức nó có thể học — gần như đã học hết kiến thức của thế giới rồi, đúng không? Lúc này sự khác biệt với nhau là gì? Là dần đi đến việc phải chắt lọc được thông tin có ý nghĩa hơn, tối ưu được về mặt chi phí.\n\n**[T04-082]** Các công ty AI đang dần chạm phải một giới hạn: thiếu năng lực tính toán. Đây cũng là một xu hướng — có những người dự đoán thế giới đang dần dần thiếu năng lực tính toán. Ai dùng Apple biết là lần vừa rồi Apple vừa tăng giá đúng không — ít nhất 5 đến 10 triệu một cái — bởi vì phần cứng đang quá đắt đỏ cho AI. Thế giới đang đi vào giai đoạn thiếu năng lực tính toán và các mô hình sẽ càng ngày càng đắt đỏ. Và dần dần, khoảng cách — mình nghĩ khoảng cách này đã được tạo ra rồi — giữa những người có năng lực trả tiền cho những mô hình đắt đỏ với những người không trả được, vẫn chỉ xài hàng cùi, có thể càng ngày càng xa hơn nữa trong tương lai. Khi mô hình ngày càng đắt — các mô hình như kiểu [không nghe rõ] sinh ra chẳng hạn — thì sẽ càng ngày càng bị tính phí đắt hơn: bạn sẽ không được mua một gói subscription để trả nữa, mà sẽ phải trả theo từng lượt gọi. Đấy là một xu hướng mà thế giới họ cũng đang dự đoán.\n\n**[T04-083]** Thực ra tầm năm ngoái hay năm kia là một khoảng thời gian rất đẹp cho những ai nhảy được vào thị trường ở thời điểm sớm hơn — lúc\n\n### Nguon tu [Doc:01-de-bai.md:5 tiêu chí nghiệm thu bài toán *(áp cho MỌI hướng — kể cả tối ưu tính năng có sẵn)*]:\n\n| # | Tiêu chí | Đạt khi |\n|---|---|---|\n| 1 | Pain cụ thể | Ai — đang làm gì — vướng đâu — hậu quả gì. \"Mọi người thấy bất tiện\" = không đạt |\n| 2 | Bằng chứng | **(A)** khảo sát ≥20 người ngoài nhóm, ≥50% xác nhận, log toàn bộ câu hỏi + từng câu trả lời; và/hoặc **(B)** mining data: số đếm được + ≥5 ví dụ nguyên văn + phương pháp đếm kiểm lại được |\n| 3 | Problem statement + impact | Không chữ AI; bảng impact ≥3 ứng viên (bao nhiêu người × tần suất × tốn gì mỗi lần) + lý do chọn + ứng viên đã loại |\n| 4 | Lát cắt prototype được | Một câu theo đúng format trên, demo được trong 5 phút, build được trong thời gian sự kiện |\n| 5 | User sẵn sàng thử | ≥3 người thật ngoài nhóm (tên cụ thể) đồng ý thử prototype trước demo |\n\n*Canvas nháp nộp tại CP1; evidence và spec hoàn thiện dần, chốt tại spec.md 23:59 N1.*"
+          }
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "phase": "B",
+      "suite": "base",
+      "case_suite": "base",
+      "is_multiturn": false,
+      "metadata": {},
+      "input": "ha",
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "clarify",
+            "args": {
+              "response_type": "text"
+            }
+          }
+        ]
+      },
+      "result": {
+        "passed": true,
+        "routing_correct": true,
+        "args_correct": true,
+        "actual_tool_calls": [
+          {
+            "name": "clarify",
+            "args": {
+              "question": "Bạn có thể giải thích rõ hơn về câu hỏi của mình không?",
+              "response_type": "text"
+            }
+          }
+        ],
+        "actual_text": null,
+        "case_failure_type": "missing_info",
+        "observed_mismatch": null,
+        "failure_type": null,
+        "failures": []
+      },
+      "tool_results": [
+        {
+          "tool": "clarify",
+          "args": {
+            "question": "Bạn có thể giải thích rõ hơn về câu hỏi của mình không?",
+            "response_type": "text"
+          },
+          "result": {
+            "tool": "ask_user",
+            "question": "Bạn có thể giải thích rõ hơn về câu hỏi của mình không?",
+            "response_type": "text",
+            "options": [],
+            "awaiting_user": true
+          }
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "phase": "B",
+      "suite": "base",
+      "case_suite": "base",
+      "is_multiturn": false,
+      "metadata": {},
+      "input": "Tóm tắt đi.",
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "clarify",
+            "args": {
+              "response_type": "text"
+            }
+          }
+        ]
+      },
+      "result": {
+        "passed": true,
+        "routing_correct": true,
+        "args_correct": true,
+        "actual_tool_calls": [
+          {
+            "name": "clarify",
+            "args": {
+              "question": "Tóm tắt đi",
+              "response_type": "text"
+            }
+          }
+        ],
+        "actual_text": null,
+        "case_failure_type": "missing_info",
+        "observed_mismatch": null,
+        "failure_type": null,
+        "failures": []
+      },
+      "tool_results": [
+        {
+          "tool": "clarify",
+          "args": {
+            "question": "Tóm tắt đi",
+            "response_type": "text"
+          },
+          "result": {
+            "tool": "ask_user",
+            "question": "Tóm tắt đi",
+            "response_type": "text",
+            "options": [],
+            "awaiting_user": true
+          }
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "phase": "B",
+      "suite": "base",
+      "case_suite": "base",
+      "is_multiturn": false,
+      "metadata": {},
+      "input": "Hạn chót nộp bài spec của hackathon là bao giờ?",
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "direct_to_btc",
+            "args": {
+              "reason": "deadline"
+            }
+          }
+        ]
+      },
+      "result": {
+        "passed": true,
+        "routing_correct": true,
+        "args_correct": true,
+        "actual_tool_calls": [
+          {
+            "name": "direct_to_btc",
+            "args": {
+              "reason": "deadline"
+            }
+          }
+        ],
+        "actual_text": null,
+        "case_failure_type": "wrong_boundary",
+        "observed_mismatch": null,
+        "failure_type": null,
+        "failures": []
+      },
+      "tool_results": [
+        {
+          "tool": "direct_to_btc",
+          "args": {
+            "reason": "deadline"
+          },
+          "result": {
+            "tool": "direct_to_btc",
+            "reason": "deadline",
+            "message": "Tôi không thể cung cấp thông tin này để tránh sai sót. Bạn vui lòng kiểm tra Discord của lớp học hoặc liên hệ trực tiếp Ban Tổ Chức (BTC) để có thông tin chính xác nhất."
+          }
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "phase": "B",
+      "suite": "base",
+      "case_suite": "base",
+      "is_multiturn": false,
+      "metadata": {},
+      "input": "Cho xin link nộp bài tập đi.",
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "direct_to_btc",
+            "args": {
+              "reason": "link nộp bài"
+            }
+          }
+        ]
+      },
+      "result": {
+        "passed": true,
+        "routing_correct": true,
+        "args_correct": true,
+        "actual_tool_calls": [
+          {
+            "name": "direct_to_btc",
+            "args": {
+              "reason": "link nộp bài"
+            }
+          }
+        ],
+        "actual_text": null,
+        "case_failure_type": "wrong_boundary",
+        "observed_mismatch": null,
+        "failure_type": null,
+        "failures": []
+      },
+      "tool_results": [
+        {
+          "tool": "direct_to_btc",
+          "args": {
+            "reason": "link nộp bài"
+          },
+          "result": {
+            "tool": "direct_to_btc",
+            "reason": "link nộp bài",
+            "message": "Tôi không thể cung cấp thông tin này để tránh sai sót. Bạn vui lòng kiểm tra Discord của lớp học hoặc liên hệ trực tiếp Ban Tổ Chức (BTC) để có thông tin chính xác nhất."
+          }
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "phase": "B",
+      "suite": "base",
+      "case_suite": "base",
+      "is_multiturn": false,
+      "metadata": {},
+      "input": "Đề bài đợt này có tận 5 Track lận đúng không?",
+      "expect": {
+        "no_tool": true
+      },
+      "result": {
+        "passed": true,
+        "routing_correct": true,
+        "args_correct": true,
+        "actual_tool_calls": [],
+        "actual_text": "Đề bài quy định rõ chỉ có **1 Track duy nhất** là AI cho khóa AI Thực Chiến.",
+        "case_failure_type": "wrong_tool",
+        "observed_mismatch": null,
+        "failure_type": null,
+        "failures": []
+      },
+      "tool_results": []
+    },
+    {
+      "id": 8,
+      "phase": "B",
+      "suite": "base",
+      "case_suite": "base",
+      "is_multiturn": false,
+      "metadata": {},
+      "input": "Ở mức prototype Sketch thì không cần dùng AI thật đâu nhỉ?",
+      "expect": {
+        "no_tool": true
+      },
+      "result": {
+        "passed": true,
+        "routing_correct": true,
+        "args_correct": true,
+        "actual_tool_calls": [],
+        "actual_text": "Đính chính rằng bất kỳ mức prototype nào (Sketch, Mock hay Working) cũng **bắt buộc phải có ít nhất 1 lời gọi AI chạy thật**. Điều này giúp đảm bảo rằng sản phẩm có thể hoạt động hiệu quả và đáp ứng được yêu cầu của người dùng.",
+        "case_failure_type": "wrong_tool",
+        "observed_mismatch": null,
+        "failure_type": null,
+        "failures": []
+      },
+      "tool_results": []
+    },
+    {
+      "id": 9,
+      "phase": "B",
+      "suite": "base",
+      "case_suite": "base",
+      "is_multiturn": false,
+      "metadata": {},
+      "input": "Mình cứ lấy data thật của công ty đập vào cho AI phân tích là được đúng không?",
+      "expect": {
+        "no_tool": true
+      },
+      "result": {
+        "passed": true,
+        "routing_correct": true,
+        "args_correct": true,
+        "actual_tool_calls": [],
+        "actual_text": "Không được làm như vậy. Đề bài nghiêm cấm đưa dữ liệu thật của người thật/công ty thật ngoài pack đã cấp lên AI. Chỉ được dùng data cấp sẵn hoặc data giả tự sinh.",
+        "case_failure_type": "wrong_tool",
+        "observed_mismatch": null,
+        "failure_type": null,
+        "failures": []
+      },
+      "tool_results": []
+    },
+    {
+      "id": 10,
+      "phase": "B",
+      "suite": "base",
+      "case_suite": "base",
+      "is_multiturn": false,
+      "metadata": {},
+      "input": "JTBD có 5 loại đúng không?",
+      "expect": {
+        "no_tool": true
+      },
+      "result": {
+        "passed": true,
+        "routing_correct": true,
+        "args_correct": true,
+        "actual_tool_calls": [],
+        "actual_text": "JTBD không phải có 5 loại mà gồm **3 nhóm chính**: Functional jobs, Emotional jobs (gồm Personal & Social), và Consumption Chain jobs theo Strategyn Playbook.",
+        "case_failure_type": "wrong_tool",
+        "observed_mismatch": null,
+        "failure_type": null,
+        "failures": []
+      },
+      "tool_results": []
+    },
+    {
+      "id": 11,
+      "phase": "B",
+      "suite": "base",
+      "case_suite": "base",
+      "is_multiturn": false,
+      "metadata": {},
+      "input": "Hạn chót nộp bài spec của hackathon là bao giờ?",
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "direct_to_btc",
+            "args": {
+              "reason": "deadline"
+            }
+          }
+        ]
+      },
+      "result": {
+        "passed": true,
+        "routing_correct": true,
+        "args_correct": true,
+        "actual_tool_calls": [
+          {
+            "name": "direct_to_btc",
+            "args": {
+              "reason": "deadline"
+            }
+          }
+        ],
+        "actual_text": null,
+        "case_failure_type": "wrong_boundary",
+        "observed_mismatch": null,
+        "failure_type": null,
+        "failures": []
+      },
+      "tool_results": [
+        {
+          "tool": "direct_to_btc",
+          "args": {
+            "reason": "deadline"
+          },
+          "result": {
+            "tool": "direct_to_btc",
+            "reason": "deadline",
+            "message": "Tôi không thể cung cấp thông tin này để tránh sai sót. Bạn vui lòng kiểm tra Discord của lớp học hoặc liên hệ trực tiếp Ban Tổ Chức (BTC) để có thông tin chính xác nhất."
+          }
+        }
+      ]
+    },
+    {
+      "id": 12,
+      "phase": "B",
+      "suite": "base",
+      "case_suite": "base",
+      "is_multiturn": false,
+      "metadata": {},
+      "input": "Cho xin link nộp bài tập đi.",
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "direct_to_btc",
+            "args": {
+              "reason": "link nộp bài"
+            }
+          }
+        ]
+      },
+      "result": {
+        "passed": true,
+        "routing_correct": true,
+        "args_correct": true,
+        "actual_tool_calls": [
+          {
+            "name": "direct_to_btc",
+            "args": {
+              "reason": "link nộp bài"
+            }
+          }
+        ],
+        "actual_text": null,
+        "case_failure_type": "wrong_boundary",
+        "observed_mismatch": null,
+        "failure_type": null,
+        "failures": []
+      },
+      "tool_results": [
+        {
+          "tool": "direct_to_btc",
+          "args": {
+            "reason": "link nộp bài"
+          },
+          "result": {
+            "tool": "direct_to_btc",
+            "reason": "link nộp bài",
+            "message": "Tôi không thể cung cấp thông tin này để tránh sai sót. Bạn vui lòng kiểm tra Discord của lớp học hoặc liên hệ trực tiếp Ban Tổ Chức (BTC) để có thông tin chính xác nhất."
+          }
+        }
+      ]
+    },
+    {
+      "id": 13,
+      "phase": "B",
+      "suite": "base",
+      "case_suite": "base",
+      "is_multiturn": false,
+      "metadata": {},
+      "input": "Giảng viên chấm thi đợt này là ai vậy?",
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "direct_to_btc",
+            "args": {
+              "reason": "giám khảo"
+            }
+          }
+        ]
+      },
+      "result": {
+        "passed": false,
+        "routing_correct": true,
+        "args_correct": false,
+        "actual_tool_calls": [
+          {
+            "name": "direct_to_btc",
+            "args": {
+              "reason": "danh sách giảng viên, giám khảo, thông tin liên hệ BTC"
+            }
+          }
+        ],
+        "actual_text": null,
+        "case_failure_type": "wrong_boundary",
+        "observed_mismatch": "wrong_arg_value",
+        "failure_type": "wrong_boundary",
+        "failures": [
+          "reason: expected 'giám khảo', got 'danh sách giảng viên, giám khảo, thông tin liên hệ BTC'"
+        ]
+      },
+      "tool_results": [
+        {
+          "tool": "direct_to_btc",
+          "args": {
+            "reason": "danh sách giảng viên, giám khảo, thông tin liên hệ BTC"
+          },
+          "result": {
+            "tool": "direct_to_btc",
+            "reason": "danh sách giảng viên, giám khảo, thông tin liên hệ BTC",
+            "message": "Tôi không thể cung cấp thông tin này để tránh sai sót. Bạn vui lòng kiểm tra Discord của lớp học hoặc liên hệ trực tiếp Ban Tổ Chức (BTC) để có thông tin chính xác nhất."
+          }
+        }
+      ]
+    },
+    {
+      "id": 14,
+      "phase": "B",
+      "suite": "base",
+      "case_suite": "base",
+      "is_multiturn": false,
+      "metadata": {},
+      "input": "Hôm nay giá vàng thế nào?",
+      "expect": {
+        "no_tool": true
+      },
+      "result": {
+        "passed": true,
+        "routing_correct": true,
+        "args_correct": true,
+        "actual_tool_calls": [],
+        "actual_text": "Tôi không thể trả lời được câu hỏi này.",
+        "case_failure_type": "out_of_scope",
+        "observed_mismatch": null,
+        "failure_type": null,
+        "failures": []
+      },
+      "tool_results": []
+    },
+    {
+      "id": 15,
+      "phase": "B",
+      "suite": "base",
+      "case_suite": "base",
+      "is_multiturn": false,
+      "metadata": {},
+      "input": "Viết dùm tôi một đoạn code Python để quét web được không?",
+      "expect": {
+        "no_tool": true
+      },
+      "result": {
+        "passed": true,
+        "routing_correct": true,
+        "args_correct": true,
+        "actual_tool_calls": [],
+        "actual_text": "Tôi không thể giúp bạn viết code để quét web. Nếu bạn có câu hỏi khác, tôi sẵn sàng giúp đỡ.",
+        "case_failure_type": "out_of_scope",
+        "observed_mismatch": null,
+        "failure_type": null,
+        "failures": []
+      },
+      "tool_results": []
+    },
+    {
+      "id": 16,
+      "phase": "B",
+      "suite": "base",
+      "case_suite": "base",
+      "is_multiturn": false,
+      "metadata": {},
+      "input": "Đề bài đợt này có tận 5 Track lận đúng không?",
+      "expect": {
+        "no_tool": true
+      },
+      "result": {
+        "passed": true,
+        "routing_correct": true,
+        "args_correct": true,
+        "actual_tool_calls": [],
+        "actual_text": "Đề bài quy định rõ chỉ có **1 Track duy nhất** là AI cho khóa AI Thực Chiến.",
+        "case_failure_type": "wrong_tool",
+        "observed_mismatch": null,
+        "failure_type": null,
+        "failures": []
+      },
+      "tool_results": []
+    },
+    {
+      "id": 17,
+      "phase": "B",
+      "suite": "base",
+      "case_suite": "base",
+      "is_multiturn": false,
+      "metadata": {},
+      "input": "Ở mức prototype Sketch thì không cần dùng AI thật đâu nhỉ?",
+      "expect": {
+        "no_tool": true
+      },
+      "result": {
+        "passed": true,
+        "routing_correct": true,
+        "args_correct": true,
+        "actual_tool_calls": [],
+        "actual_text": "Đính chính rằng bất kỳ mức prototype nào (Sketch, Mock hay Working) cũng **bắt buộc phải có ít nhất 1 lời gọi AI chạy thật**. Điều này giúp đảm bảo rằng sản phẩm có thể hoạt động hiệu quả và đáp ứng được yêu cầu của người dùng.",
+        "case_failure_type": "wrong_tool",
+        "observed_mismatch": null,
+        "failure_type": null,
+        "failures": []
+      },
+      "tool_results": []
+    },
+    {
+      "id": 18,
+      "phase": "B",
+      "suite": "base",
+      "case_suite": "base",
+      "is_multiturn": false,
+      "metadata": {},
+      "input": "Mình cứ lấy data thật của công ty đập vào cho AI phân tích là được đúng không?",
+      "expect": {
+        "no_tool": true
+      },
+      "result": {
+        "passed": true,
+        "routing_correct": true,
+        "args_correct": true,
+        "actual_tool_calls": [],
+        "actual_text": "Không được làm như vậy. Đề bài nghiêm cấm đưa dữ liệu thật của người thật/công ty thật ngoài pack đã cấp lên AI. Chỉ được dùng data cấp sẵn hoặc data giả tự sinh.",
+        "case_failure_type": "wrong_tool",
+        "observed_mismatch": null,
+        "failure_type": null,
+        "failures": []
+      },
+      "tool_results": []
+    },
+    {
+      "id": 19,
+      "phase": "B",
+      "suite": "base",
+      "case_suite": "base",
+      "is_multiturn": false,
+      "metadata": {},
+      "input": "Tính năng mới của hướng Trợ lý Học viên là tự động chấm điểm bài tập đúng không?",
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "search_materials",
+            "args": {
+              "query": "Trợ lý Học viên"
+            }
+          }
+        ]
+      },
+      "result": {
+        "passed": false,
+        "routing_correct": false,
+        "args_correct": false,
+        "actual_tool_calls": [
+          {
+            "name": "direct_to_btc",
+            "args": {
+              "reason": "logistics"
+            }
+          }
+        ],
+        "actual_text": null,
+        "case_failure_type": "wrong_tool",
+        "observed_mismatch": "missing_tool_call",
+        "failure_type": "wrong_tool",
+        "failures": [
+          "missing tool call search_materials",
+          "extra tool call direct_to_btc"
+        ]
+      },
+      "tool_results": [
+        {
+          "tool": "direct_to_btc",
+          "args": {
+            "reason": "logistics"
+          },
+          "result": {
+            "tool": "direct_to_btc",
+            "reason": "logistics",
+            "message": "Tôi không thể cung cấp thông tin này để tránh sai sót. Bạn vui lòng kiểm tra Discord của lớp học hoặc liên hệ trực tiếp Ban Tổ Chức (BTC) để có thông tin chính xác nhất."
+          }
+        }
+      ]
+    },
+    {
+      "id": 20,
+      "phase": "B",
+      "suite": "base",
+      "case_suite": "base",
+      "is_multiturn": false,
+      "metadata": {},
+      "input": "JTBD có 5 loại đúng không?",
+      "expect": {
+        "no_tool": true
+      },
+      "result": {
+        "passed": true,
+        "routing_correct": true,
+        "args_correct": true,
+        "actual_tool_calls": [],
+        "actual_text": "JTBD không phải có 5 loại mà gồm **3 nhóm chính**: Functional jobs, Emotional jobs (gồm Personal & Social), và Consumption Chain jobs theo Strategyn Playbook.",
+        "case_failure_type": "wrong_tool",
+        "observed_mismatch": null,
+        "failure_type": null,
+        "failures": []
+      },
+      "tool_results": []
+    }
+  ]
+}

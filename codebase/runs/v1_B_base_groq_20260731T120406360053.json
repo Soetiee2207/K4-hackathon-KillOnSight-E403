@@ -1,0 +1,697 @@
+{
+  "run_id": "v1_B_base_groq_20260731T120406360053",
+  "version": "v1",
+  "artifact_version": "v1+pf3d831c7fb89+te65b72fb19a6",
+  "prompt_hash": "f3d831c7fb8992dd79f2d08daf1e3eb477dddffdace6863b2db6e6ca0eb05b92",
+  "tools_hash": "e65b72fb19a6fafefb3a7dc022b001ac0072464a219c6f33b0b1a917a2879f59",
+  "phase": "B",
+  "suite": "base",
+  "provider": "groq",
+  "model": "llama-3.1-8b-instant",
+  "system_prompt": "D:\\vinUni\\K4-hackathon-KillOnSight-E403\\codebase\\artifacts\\system_prompt.md",
+  "tools": "D:\\vinUni\\K4-hackathon-KillOnSight-E403\\codebase\\artifacts\\tools.yaml",
+  "eval_cases": "D:\\vinUni\\K4-hackathon-KillOnSight-E403\\codebase\\data\\golden_set.json",
+  "dataset_id": "golden_set",
+  "dataset_role": "eval",
+  "description": "Tutor Agent evaluation cases",
+  "generated_at": "2026-07-31T12:04:06",
+  "summary": {
+    "total_cases": 20,
+    "measured_cases": 14,
+    "provider_error_cases": 6,
+    "passed_cases": 14,
+    "case_accuracy": 1.0,
+    "tool_routing_accuracy": 1.0,
+    "argument_accuracy": 1.0,
+    "multiturn_accuracy": null,
+    "failure_counts": {},
+    "observed_mismatch_counts": {}
+  },
+  "results": [
+    {
+      "id": 1,
+      "phase": "B",
+      "suite": "base",
+      "case_suite": "base",
+      "is_multiturn": false,
+      "metadata": {},
+      "input": "Tóm tắt giúp tôi nội dung của slide về 3 Hướng làm sản phẩm.",
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "search_materials",
+            "args": {
+              "query": "3 Hướng làm sản phẩm"
+            }
+          }
+        ]
+      },
+      "result": {
+        "passed": false,
+        "failure_type": "provider_error",
+        "case_failure_type": "wrong_tool",
+        "observed_mismatch": "provider_error",
+        "failures": [
+          "RateLimitError: Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.1-8b-instant` in organization `org_01kr6zvzspfv2a2kshtp12q5h5` service tier `on_demand` on tokens per minute (TPM): Limit 6000, Used 5364, Requested 4112. Please try again in 34.76s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}"
+        ],
+        "actual_tool_calls": [],
+        "actual_text": null,
+        "routing_correct": false,
+        "args_correct": false
+      },
+      "tool_results": []
+    },
+    {
+      "id": 2,
+      "phase": "B",
+      "suite": "base",
+      "case_suite": "base",
+      "is_multiturn": false,
+      "metadata": {},
+      "input": "Đoạn văn này đang định nghĩa tính năng VLearn hiện tại là gì?",
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "search_materials",
+            "args": {
+              "query": "định nghĩa tính năng VLearn hiện tại"
+            }
+          }
+        ]
+      },
+      "result": {
+        "passed": false,
+        "failure_type": "provider_error",
+        "case_failure_type": "wrong_tool",
+        "observed_mismatch": "provider_error",
+        "failures": [
+          "RateLimitError: Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.1-8b-instant` in organization `org_01kr6zvzspfv2a2kshtp12q5h5` service tier `on_demand` on tokens per minute (TPM): Limit 6000, Used 3521, Requested 4111. Please try again in 16.32s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}"
+        ],
+        "actual_tool_calls": [],
+        "actual_text": null,
+        "routing_correct": false,
+        "args_correct": false
+      },
+      "tool_results": []
+    },
+    {
+      "id": 3,
+      "phase": "B",
+      "suite": "base",
+      "case_suite": "base",
+      "is_multiturn": false,
+      "metadata": {},
+      "input": "ha",
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "clarify",
+            "args": {
+              "response_type": "text"
+            }
+          }
+        ]
+      },
+      "result": {
+        "passed": true,
+        "routing_correct": true,
+        "args_correct": true,
+        "actual_tool_calls": [
+          {
+            "name": "clarify",
+            "args": {
+              "question": "Bạn có thể giải thích rõ hơn về câu hỏi của mình không?",
+              "response_type": "text"
+            }
+          }
+        ],
+        "actual_text": null,
+        "case_failure_type": "missing_info",
+        "observed_mismatch": null,
+        "failure_type": null,
+        "failures": []
+      },
+      "tool_results": [
+        {
+          "tool": "clarify",
+          "args": {
+            "question": "Bạn có thể giải thích rõ hơn về câu hỏi của mình không?",
+            "response_type": "text"
+          },
+          "result": {
+            "tool": "ask_user",
+            "question": "Bạn có thể giải thích rõ hơn về câu hỏi của mình không?",
+            "response_type": "text",
+            "options": [],
+            "awaiting_user": true
+          }
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "phase": "B",
+      "suite": "base",
+      "case_suite": "base",
+      "is_multiturn": false,
+      "metadata": {},
+      "input": "Tóm tắt đi.",
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "clarify",
+            "args": {
+              "response_type": "text"
+            }
+          }
+        ]
+      },
+      "result": {
+        "passed": true,
+        "routing_correct": true,
+        "args_correct": true,
+        "actual_tool_calls": [
+          {
+            "name": "clarify",
+            "args": {
+              "question": "Tóm tắt đi",
+              "response_type": "text"
+            }
+          }
+        ],
+        "actual_text": null,
+        "case_failure_type": "missing_info",
+        "observed_mismatch": null,
+        "failure_type": null,
+        "failures": []
+      },
+      "tool_results": [
+        {
+          "tool": "clarify",
+          "args": {
+            "question": "Tóm tắt đi",
+            "response_type": "text"
+          },
+          "result": {
+            "tool": "ask_user",
+            "question": "Tóm tắt đi",
+            "response_type": "text",
+            "options": [],
+            "awaiting_user": true
+          }
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "phase": "B",
+      "suite": "base",
+      "case_suite": "base",
+      "is_multiturn": false,
+      "metadata": {},
+      "input": "Hạn chót nộp bài spec của hackathon là bao giờ?",
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "direct_to_btc",
+            "args": {
+              "reason": "deadline"
+            }
+          }
+        ]
+      },
+      "result": {
+        "passed": true,
+        "routing_correct": true,
+        "args_correct": true,
+        "actual_tool_calls": [
+          {
+            "name": "direct_to_btc",
+            "args": {
+              "reason": "deadline"
+            }
+          }
+        ],
+        "actual_text": null,
+        "case_failure_type": "wrong_boundary",
+        "observed_mismatch": null,
+        "failure_type": null,
+        "failures": []
+      },
+      "tool_results": [
+        {
+          "tool": "direct_to_btc",
+          "args": {
+            "reason": "deadline"
+          },
+          "result": {
+            "tool": "direct_to_btc",
+            "reason": "deadline",
+            "message": "Tôi không thể cung cấp thông tin này để tránh sai sót. Bạn vui lòng kiểm tra Discord của lớp học hoặc liên hệ trực tiếp Ban Tổ Chức (BTC) để có thông tin chính xác nhất."
+          }
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "phase": "B",
+      "suite": "base",
+      "case_suite": "base",
+      "is_multiturn": false,
+      "metadata": {},
+      "input": "Cho xin link nộp bài tập đi.",
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "direct_to_btc",
+            "args": {
+              "reason": "link nộp bài"
+            }
+          }
+        ]
+      },
+      "result": {
+        "passed": true,
+        "routing_correct": true,
+        "args_correct": true,
+        "actual_tool_calls": [
+          {
+            "name": "direct_to_btc",
+            "args": {
+              "reason": "link nộp bài"
+            }
+          }
+        ],
+        "actual_text": null,
+        "case_failure_type": "wrong_boundary",
+        "observed_mismatch": null,
+        "failure_type": null,
+        "failures": []
+      },
+      "tool_results": [
+        {
+          "tool": "direct_to_btc",
+          "args": {
+            "reason": "link nộp bài"
+          },
+          "result": {
+            "tool": "direct_to_btc",
+            "reason": "link nộp bài",
+            "message": "Tôi không thể cung cấp thông tin này để tránh sai sót. Bạn vui lòng kiểm tra Discord của lớp học hoặc liên hệ trực tiếp Ban Tổ Chức (BTC) để có thông tin chính xác nhất."
+          }
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "phase": "B",
+      "suite": "base",
+      "case_suite": "base",
+      "is_multiturn": false,
+      "metadata": {},
+      "input": "Đề bài đợt này có tận 5 Track lận đúng không?",
+      "expect": {
+        "no_tool": true
+      },
+      "result": {
+        "passed": true,
+        "routing_correct": true,
+        "args_correct": true,
+        "actual_tool_calls": [],
+        "actual_text": "Đề bài quy định rõ chỉ có **1 Track duy nhất** là AI cho khóa AI Thực Chiến.",
+        "case_failure_type": "wrong_tool",
+        "observed_mismatch": null,
+        "failure_type": null,
+        "failures": []
+      },
+      "tool_results": []
+    },
+    {
+      "id": 8,
+      "phase": "B",
+      "suite": "base",
+      "case_suite": "base",
+      "is_multiturn": false,
+      "metadata": {},
+      "input": "Ở mức prototype Sketch thì không cần dùng AI thật đâu nhỉ?",
+      "expect": {
+        "no_tool": true
+      },
+      "result": {
+        "passed": true,
+        "routing_correct": true,
+        "args_correct": true,
+        "actual_tool_calls": [],
+        "actual_text": "Đính chính rằng bất kỳ mức prototype nào (Sketch, Mock hay Working) cũng **bắt buộc phải có ít nhất 1 lời gọi AI chạy thật**. Điều này giúp đảm bảo rằng sản phẩm có thể hoạt động hiệu quả và đáp ứng được yêu cầu của người dùng.",
+        "case_failure_type": "wrong_tool",
+        "observed_mismatch": null,
+        "failure_type": null,
+        "failures": []
+      },
+      "tool_results": []
+    },
+    {
+      "id": 9,
+      "phase": "B",
+      "suite": "base",
+      "case_suite": "base",
+      "is_multiturn": false,
+      "metadata": {},
+      "input": "Mình cứ lấy data thật của công ty đập vào cho AI phân tích là được đúng không?",
+      "expect": {
+        "no_tool": true
+      },
+      "result": {
+        "passed": true,
+        "routing_correct": true,
+        "args_correct": true,
+        "actual_tool_calls": [],
+        "actual_text": "Không được làm như vậy. Đề bài nghiêm cấm đưa dữ liệu thật của người thật/công ty thật ngoài pack đã cấp lên AI. Chỉ được dùng data cấp sẵn hoặc data giả tự sinh.",
+        "case_failure_type": "wrong_tool",
+        "observed_mismatch": null,
+        "failure_type": null,
+        "failures": []
+      },
+      "tool_results": []
+    },
+    {
+      "id": 10,
+      "phase": "B",
+      "suite": "base",
+      "case_suite": "base",
+      "is_multiturn": false,
+      "metadata": {},
+      "input": "JTBD có 5 loại đúng không?",
+      "expect": {
+        "no_tool": true
+      },
+      "result": {
+        "passed": true,
+        "routing_correct": true,
+        "args_correct": true,
+        "actual_tool_calls": [],
+        "actual_text": "JTBD không phải có 5 loại mà gồm **3 nhóm chính**: Functional jobs, Emotional jobs (gồm Personal & Social), và Consumption Chain jobs theo Strategyn Playbook.",
+        "case_failure_type": "wrong_tool",
+        "observed_mismatch": null,
+        "failure_type": null,
+        "failures": []
+      },
+      "tool_results": []
+    },
+    {
+      "id": 11,
+      "phase": "B",
+      "suite": "base",
+      "case_suite": "base",
+      "is_multiturn": false,
+      "metadata": {},
+      "input": "Hạn chót nộp bài spec của hackathon là bao giờ?",
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "direct_to_btc",
+            "args": {
+              "reason": "deadline"
+            }
+          }
+        ]
+      },
+      "result": {
+        "passed": true,
+        "routing_correct": true,
+        "args_correct": true,
+        "actual_tool_calls": [
+          {
+            "name": "direct_to_btc",
+            "args": {
+              "reason": "deadline"
+            }
+          }
+        ],
+        "actual_text": null,
+        "case_failure_type": "wrong_boundary",
+        "observed_mismatch": null,
+        "failure_type": null,
+        "failures": []
+      },
+      "tool_results": [
+        {
+          "tool": "direct_to_btc",
+          "args": {
+            "reason": "deadline"
+          },
+          "result": {
+            "tool": "direct_to_btc",
+            "reason": "deadline",
+            "message": "Tôi không thể cung cấp thông tin này để tránh sai sót. Bạn vui lòng kiểm tra Discord của lớp học hoặc liên hệ trực tiếp Ban Tổ Chức (BTC) để có thông tin chính xác nhất."
+          }
+        }
+      ]
+    },
+    {
+      "id": 12,
+      "phase": "B",
+      "suite": "base",
+      "case_suite": "base",
+      "is_multiturn": false,
+      "metadata": {},
+      "input": "Cho xin link nộp bài tập đi.",
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "direct_to_btc",
+            "args": {
+              "reason": "link nộp bài"
+            }
+          }
+        ]
+      },
+      "result": {
+        "passed": false,
+        "failure_type": "provider_error",
+        "case_failure_type": "wrong_boundary",
+        "observed_mismatch": "provider_error",
+        "failures": [
+          "RateLimitError: Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.1-8b-instant` in organization `org_01kr6zvzspfv2a2kshtp12q5h5` service tier `on_demand` on tokens per minute (TPM): Limit 6000, Used 3871, Requested 4002. Please try again in 18.73s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}"
+        ],
+        "actual_tool_calls": [],
+        "actual_text": null,
+        "routing_correct": false,
+        "args_correct": false
+      },
+      "tool_results": []
+    },
+    {
+      "id": 13,
+      "phase": "B",
+      "suite": "base",
+      "case_suite": "base",
+      "is_multiturn": false,
+      "metadata": {},
+      "input": "Giảng viên chấm thi đợt này là ai vậy?",
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "direct_to_btc",
+            "args": {
+              "reason": "giám khảo"
+            }
+          }
+        ]
+      },
+      "result": {
+        "passed": false,
+        "failure_type": "provider_error",
+        "case_failure_type": "wrong_boundary",
+        "observed_mismatch": "provider_error",
+        "failures": [
+          "RateLimitError: Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.1-8b-instant` in organization `org_01kr6zvzspfv2a2kshtp12q5h5` service tier `on_demand` on tokens per minute (TPM): Limit 6000, Used 3290, Requested 3808. Please try again in 10.98s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}"
+        ],
+        "actual_tool_calls": [],
+        "actual_text": null,
+        "routing_correct": false,
+        "args_correct": false
+      },
+      "tool_results": []
+    },
+    {
+      "id": 14,
+      "phase": "B",
+      "suite": "base",
+      "case_suite": "base",
+      "is_multiturn": false,
+      "metadata": {},
+      "input": "Hôm nay giá vàng thế nào?",
+      "expect": {
+        "no_tool": true
+      },
+      "result": {
+        "passed": true,
+        "routing_correct": true,
+        "args_correct": true,
+        "actual_tool_calls": [],
+        "actual_text": "Tôi không thể trả lời được câu hỏi này.",
+        "case_failure_type": "out_of_scope",
+        "observed_mismatch": null,
+        "failure_type": null,
+        "failures": []
+      },
+      "tool_results": []
+    },
+    {
+      "id": 15,
+      "phase": "B",
+      "suite": "base",
+      "case_suite": "base",
+      "is_multiturn": false,
+      "metadata": {},
+      "input": "Viết dùm tôi một đoạn code Python để quét web được không?",
+      "expect": {
+        "no_tool": true
+      },
+      "result": {
+        "passed": true,
+        "routing_correct": true,
+        "args_correct": true,
+        "actual_tool_calls": [],
+        "actual_text": "Tôi không thể giúp bạn viết code để quét web. Nếu bạn có câu hỏi khác, tôi sẵn sàng giúp đỡ.",
+        "case_failure_type": "out_of_scope",
+        "observed_mismatch": null,
+        "failure_type": null,
+        "failures": []
+      },
+      "tool_results": []
+    },
+    {
+      "id": 16,
+      "phase": "B",
+      "suite": "base",
+      "case_suite": "base",
+      "is_multiturn": false,
+      "metadata": {},
+      "input": "Đề bài đợt này có tận 5 Track lận đúng không?",
+      "expect": {
+        "no_tool": true
+      },
+      "result": {
+        "passed": true,
+        "routing_correct": true,
+        "args_correct": true,
+        "actual_tool_calls": [],
+        "actual_text": "Đề bài quy định rõ chỉ có **1 Track duy nhất** là AI cho khóa AI Thực Chiến.",
+        "case_failure_type": "wrong_tool",
+        "observed_mismatch": null,
+        "failure_type": null,
+        "failures": []
+      },
+      "tool_results": []
+    },
+    {
+      "id": 17,
+      "phase": "B",
+      "suite": "base",
+      "case_suite": "base",
+      "is_multiturn": false,
+      "metadata": {},
+      "input": "Ở mức prototype Sketch thì không cần dùng AI thật đâu nhỉ?",
+      "expect": {
+        "no_tool": true
+      },
+      "result": {
+        "passed": true,
+        "routing_correct": true,
+        "args_correct": true,
+        "actual_tool_calls": [],
+        "actual_text": "Đính chính rằng bất kỳ mức prototype nào (Sketch, Mock hay Working) cũng **bắt buộc phải có ít nhất 1 lời gọi AI chạy thật**. Điều này giúp đảm bảo rằng sản phẩm có thể hoạt động hiệu quả và đáp ứng được yêu cầu của người dùng.",
+        "case_failure_type": "wrong_tool",
+        "observed_mismatch": null,
+        "failure_type": null,
+        "failures": []
+      },
+      "tool_results": []
+    },
+    {
+      "id": 18,
+      "phase": "B",
+      "suite": "base",
+      "case_suite": "base",
+      "is_multiturn": false,
+      "metadata": {},
+      "input": "Mình cứ lấy data thật của công ty đập vào cho AI phân tích là được đúng không?",
+      "expect": {
+        "no_tool": true
+      },
+      "result": {
+        "passed": true,
+        "routing_correct": true,
+        "args_correct": true,
+        "actual_tool_calls": [],
+        "actual_text": "Không được làm như vậy. Đề bài nghiêm cấm đưa dữ liệu thật của người thật/công ty thật ngoài pack đã cấp lên AI. Chỉ được dùng data cấp sẵn hoặc data giả tự sinh.",
+        "case_failure_type": "wrong_tool",
+        "observed_mismatch": null,
+        "failure_type": null,
+        "failures": []
+      },
+      "tool_results": []
+    },
+    {
+      "id": 19,
+      "phase": "B",
+      "suite": "base",
+      "case_suite": "base",
+      "is_multiturn": false,
+      "metadata": {},
+      "input": "Tính năng mới của hướng Trợ lý Học viên là tự động chấm điểm bài tập đúng không?",
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "search_materials",
+            "args": {
+              "query": "Trợ lý Học viên"
+            }
+          }
+        ]
+      },
+      "result": {
+        "passed": false,
+        "failure_type": "provider_error",
+        "case_failure_type": "wrong_tool",
+        "observed_mismatch": "provider_error",
+        "failures": [
+          "RateLimitError: Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.1-8b-instant` in organization `org_01kr6zvzspfv2a2kshtp12q5h5` service tier `on_demand` on tokens per minute (TPM): Limit 6000, Used 5891, Requested 4115. Please try again in 40.059999999s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}"
+        ],
+        "actual_tool_calls": [],
+        "actual_text": null,
+        "routing_correct": false,
+        "args_correct": false
+      },
+      "tool_results": []
+    },
+    {
+      "id": 20,
+      "phase": "B",
+      "suite": "base",
+      "case_suite": "base",
+      "is_multiturn": false,
+      "metadata": {},
+      "input": "JTBD có 5 loại đúng không?",
+      "expect": {
+        "no_tool": true
+      },
+      "result": {
+        "passed": false,
+        "failure_type": "provider_error",
+        "case_failure_type": "wrong_tool",
+        "observed_mismatch": "provider_error",
+        "failures": [
+          "RateLimitError: Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.1-8b-instant` in organization `org_01kr6zvzspfv2a2kshtp12q5h5` service tier `on_demand` on tokens per minute (TPM): Limit 6000, Used 2818, Requested 3284. Please try again in 1.02s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}"
+        ],
+        "actual_tool_calls": [],
+        "actual_text": null,
+        "routing_correct": false,
+        "args_correct": false
+      },
+      "tool_results": []
+    }
+  ]
+}

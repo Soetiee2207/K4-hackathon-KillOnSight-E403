@@ -1,0 +1,252 @@
+[
+  {
+    "id": 1,
+    "category": "Happy path",
+    "failure_type": "wrong_tool",
+    "input": "Tóm tắt giúp tôi nội dung của slide về 3 Hướng làm sản phẩm.",
+    "expect": {
+      "tool_calls": [
+        {
+          "name": "search_materials",
+          "args": {
+            "query": "3 Hướng làm sản phẩm"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 2,
+    "category": "Happy path",
+    "failure_type": "wrong_tool",
+    "input": "Đoạn văn này đang định nghĩa tính năng VLearn hiện tại là gì?",
+    "expect": {
+      "tool_calls": [
+        {
+          "name": "search_materials",
+          "args": {
+            "query": "định nghĩa tính năng VLearn hiện tại"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 3,
+    "category": "Thiếu thông tin",
+    "failure_type": "missing_info",
+    "input": "ha",
+    "expect": {
+      "tool_calls": [
+        {
+          "name": "clarify",
+          "args": {
+            "response_type": "text"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 4,
+    "category": "Thiếu thông tin",
+    "failure_type": "missing_info",
+    "input": "Tóm tắt đi.",
+    "expect": {
+      "tool_calls": [
+        {
+          "name": "clarify",
+          "args": {
+            "response_type": "text"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 5,
+    "category": "Ngoài phạm vi",
+    "failure_type": "wrong_boundary",
+    "input": "Hạn chót nộp bài spec của hackathon là bao giờ?",
+    "expect": {
+      "tool_calls": [
+        {
+          "name": "direct_to_btc",
+          "args": {
+            "reason": "deadline"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 6,
+    "category": "Ngoài phạm vi",
+    "failure_type": "wrong_boundary",
+    "input": "Cho xin link nộp bài tập đi.",
+    "expect": {
+      "tool_calls": [
+        {
+          "name": "direct_to_btc",
+          "args": {
+            "reason": "link nộp bài"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 7,
+    "category": "Bắt lỗi / Dạy sai",
+    "failure_type": "wrong_tool",
+    "input": "Đề bài đợt này có tận 5 Track lận đúng không?",
+    "expect": {
+      "no_tool": true
+    }
+  },
+  {
+    "id": 8,
+    "category": "Bắt lỗi / Dạy sai",
+    "failure_type": "wrong_tool",
+    "input": "Ở mức prototype Sketch thì không cần dùng AI thật đâu nhỉ?",
+    "expect": {
+      "no_tool": true
+    }
+  },
+  {
+    "id": 9,
+    "category": "Bắt lỗi / Dạy sai",
+    "failure_type": "wrong_tool",
+    "input": "Mình cứ lấy data thật của công ty đập vào cho AI phân tích là được đúng không?",
+    "expect": {
+      "no_tool": true
+    }
+  },
+  {
+    "id": 10,
+    "category": "Bắt lỗi / Dạy sai",
+    "failure_type": "wrong_tool",
+    "input": "JTBD có 5 loại đúng không?",
+    "expect": {
+      "no_tool": true
+    }
+  },
+  {
+    "id": 11,
+    "category": "Ngoài phạm vi",
+    "failure_type": "wrong_boundary",
+    "input": "Hạn chót nộp bài spec của hackathon là bao giờ?",
+    "expect": {
+      "tool_calls": [
+        {
+          "name": "direct_to_btc",
+          "args": {
+            "reason": "deadline"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 12,
+    "category": "Ngoài phạm vi",
+    "failure_type": "wrong_boundary",
+    "input": "Cho xin link nộp bài tập đi.",
+    "expect": {
+      "tool_calls": [
+        {
+          "name": "direct_to_btc",
+          "args": {
+            "reason": "link nộp bài"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 13,
+    "category": "Ngoài phạm vi",
+    "failure_type": "wrong_boundary",
+    "input": "Giảng viên chấm thi đợt này là ai vậy?",
+    "expect": {
+      "tool_calls": [
+        {
+          "name": "direct_to_btc",
+          "args": {
+            "reason": "giám khảo"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 14,
+    "category": "Ngoài phạm vi",
+    "failure_type": "out_of_scope",
+    "input": "Hôm nay giá vàng thế nào?",
+    "expect": {
+      "no_tool": true
+    }
+  },
+  {
+    "id": 15,
+    "category": "Ngoài phạm vi",
+    "failure_type": "out_of_scope",
+    "input": "Viết dùm tôi một đoạn code Python để quét web được không?",
+    "expect": {
+      "no_tool": true
+    }
+  },
+  {
+    "id": 16,
+    "category": "Bắt lỗi / Dạy sai",
+    "failure_type": "wrong_tool",
+    "input": "Đề bài đợt này có tận 5 Track lận đúng không?",
+    "expect": {
+      "no_tool": true
+    }
+  },
+  {
+    "id": 17,
+    "category": "Bắt lỗi / Dạy sai",
+    "failure_type": "wrong_tool",
+    "input": "Ở mức prototype Sketch thì không cần dùng AI thật đâu nhỉ?",
+    "expect": {
+      "no_tool": true
+    }
+  },
+  {
+    "id": 18,
+    "category": "Bắt lỗi / Dạy sai",
+    "failure_type": "wrong_tool",
+    "input": "Mình cứ lấy data thật của công ty đập vào cho AI phân tích là được đúng không?",
+    "expect": {
+      "no_tool": true
+    }
+  },
+  {
+    "id": 19,
+    "category": "Bắt lỗi / Dạy sai",
+    "failure_type": "wrong_tool",
+    "input": "Tính năng mới của hướng Trợ lý Học viên là tự động chấm điểm bài tập đúng không?",
+    "expect": {
+      "tool_calls": [
+        {
+          "name": "search_materials",
+          "args": {
+            "query": "Trợ lý Học viên"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 20,
+    "category": "Bắt lỗi / Dạy sai",
+    "failure_type": "wrong_tool",
+    "input": "JTBD có 5 loại đúng không?",
+    "expect": {
+      "no_tool": true
+    }
+  }
+]
